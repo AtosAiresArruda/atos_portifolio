@@ -33,14 +33,14 @@ window.COMO_FOI_CRIADO = {
       prompt: "Vamos implementar isso antes de realizar o PR. Crie uma aba HTML contendo as seguintes informações:\n\nUm quadro contendo as configurações do agente e skills utilizadas e na sequencia uma sequência de card contendo prompts que eu vou inserir. Adicione no Claude.md que a cada vez que eu inserir um prompt ele deve salvar o todo o conteúdo do prompt e colocar no próximo item dessa sequência de cards",
       skills: [],
       resultado: "Criada a página como-foi-criado.html, o arquivo de dados content/como-foi-criado.js e a regra de registro no CLAUDE.md.",
-      commit: null
+      commit: "bfeed9d"
     },
     {
       data: "2026-11-02",
       prompt: "Faça os commits e o push para o repositório no git hub. Faça um PR após isso",
       skills: [],
-      resultado: "Commit da aba, push da branch e abertura do PR.",
-      commit: null
+      resultado: "Push da branch para o GitHub e abertura do PR.",
+      commit: "bfeed9d"
     }
   ]
 };
