@@ -48,7 +48,7 @@ window.COMO_FOI_CRIADO = {
       prompt: "Sim, integrar",
       skills: [],
       resultado: { pt: "Aba integrada ao site: mesmo cabeçalho, menu, rodapé e estilos, com item novo no menu de todas as páginas.", en: "Tab merged into the site: same header, menu, footer and styles, with a new menu item on every page." },
-      commit: null
+      commit: "7e6e370"
     }
   ]
 };
