@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Como esse site foi criado</title>
+  <style>
+    :root {
+      --bg: #f6f5f1;
+      --surface: #ffffff;
+      --text: #1d1c1a;
+      --muted: #6b6862;
+      --border: #e2dfd8;
+      --accent: #b4532a;
+      --accent-soft: #f6e7df;
+      --code-bg: #f1efe9;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #161514;
+        --surface: #201f1d;
+        --text: #ecebe7;
+        --muted: #a29f98;
+        --border: #34322e;
+        --accent: #e08a5f;
+        --accent-soft: #3a2a21;
+        --code-bg: #1a1917;
+      }
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    }
+    .wrap { max-width: 860px; margin: 0 auto; padding: 0 16px; }
+
+    header { border-bottom: 1px solid var(--border); background: var(--surface); }
+    nav { display: flex; gap: 24px; overflow-x: auto; }
+    nav a {
+      padding: 16px 0;
+      color: var(--muted);
+      text-decoration: none;
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+    }
+    nav a[aria-current="page"] { color: var(--text); border-bottom-color: var(--accent); }
+
+    main { padding: 40px 0 64px; }
+    h1 { font-size: clamp(1.75rem, 5vw, 2.5rem); line-height: 1.2; margin: 0 0 8px; }
+    .lead { color: var(--muted); margin: 0 0 32px; max-width: 60ch; }
+    h2 { font-size: 1.125rem; margin: 0 0 16px; }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      margin-bottom: 48px;
+    }
+    @media (max-width: 640px) { .panel { grid-template-columns: 1fr; gap: 24px; } }
+
+    dl { margin: 0; display: grid; gap: 12px; }
+    dt { font-size: 0.8125rem; color: var(--muted); }
+    dd { margin: 0; }
+
+    .skills { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+    .skills strong { font-family: ui-monospace, Consolas, monospace; font-size: 0.9375rem; }
+    .skills p { margin: 2px 0 0; color: var(--muted); font-size: 0.9375rem; }
+    .empty { color: var(--muted); font-style: italic; margin: 0; }
+
+    .timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; counter-reset: prompt; }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 24px;
+    }
+    .card-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 8px 16px;
+      margin-bottom: 12px;
+    }
+    .num {
+      font-weight: 700;
+      color: var(--accent);
+      font-variant-numeric: tabular-nums;
+    }
+    .date { color: var(--muted); font-size: 0.875rem; }
+    .tag {
+      background: var(--accent-soft);
+      color: var(--accent);
+      border-radius: 999px;
+      padding: 1px 10px;
+      font-size: 0.8125rem;
+      font-family: ui-monospace, Consolas, monospace;
+    }
+    blockquote {
+      margin: 0;
+      padding: 12px 16px;
+      background: var(--code-bg);
+      border-left: 3px solid var(--accent);
+      border-radius: 4px;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+    .result { margin: 12px 0 0; color: var(--muted); font-size: 0.9375rem; }
+    .result code { font-family: ui-monospace, Consolas, monospace; color: var(--text); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <nav>
+        <a href="como-foi-criado.html" aria-current="page">Como esse site foi criado</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <h1>Como esse site foi criado</h1>
+    <p class="lead">Este site foi construído com um agente de IA. Abaixo estão a configuração usada e, em ordem, todos os prompts enviados ao agente.</p>
+
+    <section class="panel" aria-labelledby="config-title">
+      <div>
+        <h2 id="config-title">Agente</h2>
+        <dl id="agente"></dl>
+      </div>
+      <div>
+        <h2>Skills utilizadas</h2>
+        <div id="skills"></div>
+      </div>
+    </section>
+
+    <section aria-labelledby="prompts-title">
+      <h2 id="prompts-title">Prompts</h2>
+      <ol class="timeline" id="prompts"></ol>
+    </section>
+  </main>
+
+  <script src="content/como-foi-criado.js"></script>
+  <script>
+    (function () {
+      var dados = window.COMO_FOI_CRIADO;
+
+      function el(tag, attrs, text) {
+        var node = document.createElement(tag);
+        for (var k in attrs || {}) node.setAttribute(k, attrs[k]);
+        if (text != null) node.textContent = text;
+        return node;
+      }
+
+      function formatarData(iso) {
+        var p = iso.split("-");
+        return p[2] + "/" + p[1] + "/" + p[0];
+      }
+
+      var rotulos = {
+        ferramenta: "Ferramenta",
+        ambiente: "Ambiente",
+        modelo: "Modelo",
+        modo: "Modo de execução",
+        inicio: "Início"
+      };
+      var agente = document.getElementById("agente");
+      Object.keys(rotulos).forEach(function (chave) {
+        if (!dados.agente[chave]) return;
+        var valor = chave === "inicio" ? formatarData(dados.agente[chave]) : dados.agente[chave];
+        var linha = el("div");
+        linha.appendChild(el("dt", null, rotulos[chave]));
+        linha.appendChild(el("dd", null, valor));
+        agente.appendChild(linha);
+      });
+
+      var skills = document.getElementById("skills");
+      if (!dados.skills.length) {
+        skills.appendChild(el("p", { "class": "empty" }, "Nenhuma skill utilizada até agora."));
+      } else {
+        var lista = el("ul", { "class": "skills" });
+        dados.skills.forEach(function (s) {
+          var item = el("li");
+          item.appendChild(el("strong", null, s.nome));
+          item.appendChild(el("p", null, s.descricao));
+          lista.appendChild(item);
+        });
+        skills.appendChild(lista);
+      }
+
+      var prompts = document.getElementById("prompts");
+      dados.prompts.forEach(function (p, i) {
+        var card = el("li", { "class": "card" });
+        var head = el("div", { "class": "card-head" });
+        head.appendChild(el("span", { "class": "num" }, "#" + String(i + 1).padStart(2, "0")));
+        head.appendChild(el("time", { "class": "date", datetime: p.data }, formatarData(p.data)));
+        (p.skills || []).forEach(function (s) { head.appendChild(el("span", { "class": "tag" }, s)); });
+        card.appendChild(head);
+        card.appendChild(el("blockquote", null, p.prompt));
+
+        if (p.resultado || p.commit) {
+          var res = el("p", { "class": "result" }, p.resultado ? p.resultado + " " : "");
+          if (p.commit) {
+            res.appendChild(document.createTextNode("Commit: "));
+            res.appendChild(el("code", null, p.commit));
+          }
+          card.appendChild(res);
+        }
+        prompts.appendChild(card);
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -24,13 +24,13 @@ O repositório ainda contém apenas o `README.md` — não há stack de front-en
 
 ## Fonte dos dados
 
-Para não precisar editar HTML a cada prompt, os dados ficam em um arquivo estruturado versionado no repositório, que a página lê:
+Para não precisar editar HTML a cada prompt, os dados ficam em um arquivo versionado no repositório, que a página carrega. É um arquivo `.js` (e não `.json`) para que a página funcione também quando aberta direto do disco, sem servidor:
 
 ```
-content/como-foi-criado.json
+content/como-foi-criado.js
 ```
 
-Formato proposto:
+Formato (atribuído a `window.COMO_FOI_CRIADO`):
 
 ```json
 {
@@ -57,12 +57,12 @@ Formato proposto:
 
 ## Etapas
 
-1. **Criar o registro de dados** — adicionar `content/como-foi-criado.json` com o agente e o primeiro prompt (o deste plano).
+1. **Criar o registro de dados** — adicionar `content/como-foi-criado.js` com o agente e o primeiro prompt (o deste plano).
 2. **Definir a convenção de registro** — a cada sessão com o agente, adicionar uma entrada em `prompts` (data, texto integral, skills, resultado, commit). Documentar essa regra no `README.md` (ou em um `CLAUDE.md`, para que o próprio agente lembre de registrar).
-3. **Recuperar o histórico** — quando a aba for implementada, revisar as sessões anteriores do Claude Code (histórico do app/transcripts) e preencher os prompts que ainda não estiverem no JSON.
+3. **Recuperar o histórico** — quando a aba for implementada, revisar as sessões anteriores do Claude Code (histórico do app/transcripts) e preencher os prompts que ainda não estiverem no arquivo de dados.
 4. **Implementar a página** — na stack escolhida para o site:
    - adicionar o item "Como esse site foi criado" na navegação principal;
-   - renderizar as seções a partir do JSON (resumo, agente, skills, linha do tempo);
+   - renderizar as seções a partir do arquivo de dados (resumo, agente, skills, linha do tempo);
    - prompts longos ficam recolhidos com "ver prompt completo".
 5. **Design** — usar a skill `impeccable` para alinhar a aba ao visual do site (tipografia, cartões da linha do tempo, responsividade e modo escuro).
 6. **Revisão de privacidade** — antes de publicar, remover dos prompts qualquer dado sensível (e-mails, chaves, caminhos locais da máquina).
@@ -76,4 +76,4 @@ Formato proposto:
 - [ ] Cada prompt aponta para o commit/PR correspondente quando houver.
 - [ ] Nenhum dado sensível é exibido.
 - [ ] A página funciona bem em telas de celular (largura ~375px) e em modo escuro.
-- [ ] Adicionar um novo prompt exige apenas editar o JSON.
+- [ ] Adicionar um novo prompt exige apenas editar `content/como-foi-criado.js`.
