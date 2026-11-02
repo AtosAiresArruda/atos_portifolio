@@ -1,0 +1,163 @@
+(function () {
+  "use strict";
+  const root = document.documentElement;
+  root.classList.add("js");
+
+  /* ---------- language ---------- */
+  // each page carries its own titles; the inline <head> script already set html.lang to avoid a flash
+  const titles = { "pt-BR": root.dataset.titlePt, en: root.dataset.titleEn };
+  const langButtons = document.querySelectorAll("[data-set-lang]");
+
+  function readStoredLang() {
+    try { return localStorage.getItem("lang"); } catch (e) { return null; }
+  }
+
+  function setLang(lang, persist) {
+    root.lang = lang;
+    if (titles[lang]) document.title = titles[lang];
+    langButtons.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.setLang === lang)));
+    if (persist) {
+      try { localStorage.setItem("lang", lang); } catch (e) { /* private mode */ }
+    }
+  }
+
+  const initial = readStoredLang() || ((navigator.language || "pt").toLowerCase().startsWith("pt") ? "pt-BR" : "en");
+  setLang(initial, false);
+  langButtons.forEach((b) => b.addEventListener("click", () => setLang(b.dataset.setLang, true)));
+
+  /* ---------- session tabs: contact lights up when the footer is in view ---------- */
+  const tabs = Array.from(document.querySelectorAll(".tabs a"));
+  const pageTab = tabs.find((t) => t.classList.contains("is-active"));
+  const contactTab = tabs.find((t) => t.hasAttribute("data-contact"));
+  const contact = document.getElementById("contato");
+
+  if (contact && contactTab) {
+    new IntersectionObserver((entries) => {
+      const inView = entries.some((e) => e.isIntersecting);
+      contactTab.classList.toggle("is-active", inView);
+      if (pageTab) pageTab.classList.toggle("is-active", !inView);
+    }, { rootMargin: "0px 0px -35% 0px" }).observe(contact);
+  }
+
+  /* ---------- keyboard shortcuts 1–3 ---------- */
+  document.addEventListener("keydown", (e) => {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    const tag = (e.target.tagName || "").toLowerCase();
+    if (tag === "input" || tag === "textarea" || e.target.isContentEditable) return;
+    const tab = tabs.find((t) => t.dataset.key === e.key);
+    if (!tab) return;
+    e.preventDefault();
+    const href = tab.getAttribute("href");
+    if (href.startsWith("#")) {
+      document.querySelector(href).scrollIntoView({ block: "start" });
+      history.replaceState(null, "", href);
+    } else {
+      window.location.href = tab.href;
+    }
+  });
+
+  /* ---------- table of contents: scrollspy ---------- */
+  const tocLinks = Array.from(document.querySelectorAll(".toc a"));
+  if (tocLinks.length) {
+    const visible = new Map();
+    const spy = new IntersectionObserver((entries) => {
+      entries.forEach((e) => visible.set(e.target.id, e.isIntersecting ? e.intersectionRatio : 0));
+      // the most specific visible target wins: a project inside a group beats the group itself
+      let best = null, bestRatio = 0;
+      tocLinks.forEach((a) => {
+        const id = a.getAttribute("href").slice(1);
+        const r = visible.get(id) || 0;
+        if (r > 0 && (r >= bestRatio || a.closest(".toc__sub"))) { best = id; bestRatio = r; }
+      });
+      if (best) tocLinks.forEach((a) => a.classList.toggle("is-active", a.getAttribute("href") === "#" + best));
+    }, { rootMargin: "-120px 0px -55% 0px", threshold: [0, .1, .25, .5, .75, 1] });
+    tocLinks.forEach((a) => {
+      const target = document.querySelector(a.getAttribute("href"));
+      if (target) spy.observe(target);
+    });
+  }
+
+  /* ---------- copy buttons ---------- */
+  document.querySelectorAll("[data-copy]").forEach((btn) => {
+    const label = btn.querySelector(".copy-label");
+    const original = label.innerHTML;
+    btn.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(btn.dataset.copy);
+        btn.classList.add("is-copied");
+        label.innerHTML = '<span lang="pt-BR">Copiado!</span><span lang="en">Copied!</span>';
+        setTimeout(() => { btn.classList.remove("is-copied"); label.innerHTML = original; }, 1800);
+      } catch (e) {
+        window.location.href = "mailto:" + btn.dataset.copy;
+      }
+    });
+  });
+
+  /* ---------- OCR → JSON demo (case study page only) ---------- */
+  const out = document.getElementById("demo-json");
+  if (!out) return;
+  const replay = document.getElementById("demo-replay");
+  const fields = [
+    ["document_type", "s", "receipt"],
+    ["issuer", "s", "Papelaria Exemplo Ltda."],
+    ["date", "s", "2026-03-14"],
+    ["description", "s", "Material de escritório"],
+    ["total", "n", "248.90"],
+  ];
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let runId = 0;
+
+  const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+  const fieldEl = (key) => document.querySelector('[data-field="' + key + '"]');
+
+  function line(key, kind, value, last) {
+    const v = kind === "s" ? '<span class="s">"' + esc(value) + '"</span>' : '<span class="n">' + value + "</span>";
+    return '  <span class="k">"' + key + '"</span>: ' + v + (last ? "" : ",");
+  }
+
+  function renderFinal() {
+    const body = fields.map((f, i) => line(f[0], f[1], f[2], i === fields.length - 1)).join("\n");
+    out.innerHTML = "{\n" + body + "\n}";
+    fields.forEach((f) => { const el = fieldEl(f[0]); el.classList.remove("is-hit"); el.classList.add("is-done"); });
+  }
+
+  async function play() {
+    const id = ++runId;
+    fields.forEach((f) => fieldEl(f[0]).classList.remove("is-hit", "is-done"));
+    if (reduceMotion) { renderFinal(); return; }
+    let done = "{\n";
+    out.innerHTML = done + '<span class="caret"></span>';
+    await sleep(500);
+    for (let i = 0; i < fields.length; i++) {
+      const [key, kind, value] = fields[i];
+      const el = fieldEl(key);
+      el.classList.add("is-hit");
+      await sleep(380);
+      if (id !== runId) return;
+      const full = line(key, kind, value, i === fields.length - 1);
+      // type the value character by character; markup is revealed with it
+      const plain = full.replace(/<[^>]+>/g, "");
+      for (let c = 1; c <= plain.length; c += 2) {
+        if (id !== runId) return;
+        out.innerHTML = done + esc(plain.slice(0, c)) + '<span class="caret"></span>';
+        await sleep(16);
+      }
+      done += full + "\n";
+      out.innerHTML = done + '<span class="caret"></span>';
+      el.classList.remove("is-hit");
+      el.classList.add("is-done");
+      await sleep(160);
+    }
+    if (id !== runId) return;
+    out.innerHTML = done + "}";
+  }
+
+  renderFinal();
+  const demo = document.querySelector(".demo");
+  const once = new IntersectionObserver((entries) => {
+    if (entries.some((e) => e.isIntersecting)) { once.disconnect(); play(); }
+  }, { threshold: .4 });
+  once.observe(demo);
+  replay.addEventListener("click", play);
+})();
