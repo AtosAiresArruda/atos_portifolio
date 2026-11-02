@@ -49,6 +49,13 @@ window.COMO_FOI_CRIADO = {
       skills: [],
       resultado: { pt: "Aba integrada ao site: mesmo cabeçalho, menu, rodapé e estilos, com item novo no menu de todas as páginas.", en: "Tab merged into the site: same header, menu, footer and styles, with a new menu item on every page." },
       commit: "7e6e370"
+    },
+    {
+      data: "2026-11-02",
+      prompt: "Não faça o PR. Verifique se tudo está em núvem no repositório git hub",
+      skills: [],
+      resultado: { pt: "Conferido que a branch no GitHub tem todos os commits locais; PR não aberto, a pedido.", en: "Checked that the GitHub branch has every local commit; no PR opened, as requested." },
+      commit: null
     }
   ]
 };
