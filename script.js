@@ -39,7 +39,7 @@
     }, { rootMargin: "0px 0px -35% 0px" }).observe(contact);
   }
 
-  /* ---------- keyboard shortcuts 1–3 ---------- */
+  /* ---------- keyboard shortcuts 1–4 ---------- */
   document.addEventListener("keydown", (e) => {
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     const tag = (e.target.tagName || "").toLowerCase();
@@ -92,6 +92,98 @@
       }
     });
   });
+
+  /* ---------- build log (how-it-was-built page only) ---------- */
+  const log = document.getElementById("build-log");
+  const data = window.COMO_FOI_CRIADO;
+  if (log && data) {
+    const repo = "https://github.com/AtosAiresArruda/atos_portifolio/commit/";
+    const slot = (name) => log.querySelector('[data-log="' + name + '"]');
+
+    function el(tag, cls, text) {
+      const node = document.createElement(tag);
+      if (cls) node.className = cls;
+      if (text != null) node.textContent = text;
+      return node;
+    }
+    // a value is either one string or { pt, en }
+    function bi(value) {
+      const frag = document.createDocumentFragment();
+      if (value == null || typeof value === "string") { frag.append(value || ""); return frag; }
+      const pt = el("span", null, value.pt); pt.lang = "pt-BR";
+      const en = el("span", null, value.en || value.pt); en.lang = "en";
+      frag.append(pt, en);
+      return frag;
+    }
+    function date(iso) {
+      const [y, m, d] = iso.split("-");
+      return bi({ pt: d + "/" + m + "/" + y, en: iso });
+    }
+    function fact(dl, label, value) {
+      const row = el("div");
+      const dt = el("dt"); dt.append(bi(label));
+      const dd = el("dd"); dd.append(value instanceof Node ? value : bi(value));
+      row.append(dt, dd);
+      dl.append(row);
+    }
+    function commitLink(hash) {
+      const a = el("a", null, hash);
+      a.href = repo + hash;
+      a.target = "_blank";
+      a.rel = "noopener";
+      const code = el("code");
+      code.append(a);
+      return code;
+    }
+
+    const a = data.agente;
+    const agent = slot("agent");
+    fact(agent, { pt: "Ferramenta", en: "Tool" }, a.ferramenta);
+    fact(agent, { pt: "Modelo", en: "Model" }, a.modelo);
+    fact(agent, { pt: "Ambiente", en: "Environment" }, a.ambiente);
+    fact(agent, { pt: "Modo", en: "Mode" }, a.modo);
+    fact(agent, { pt: "Início", en: "Started" }, date(a.inicio));
+
+    const skills = slot("skills");
+    if (!data.skills.length) {
+      const p = el("p", "log-empty");
+      p.append(bi({ pt: "Nenhuma skill foi invocada até agora.", en: "No skills have been invoked so far." }));
+      skills.append(p);
+    } else {
+      const dl = el("dl", "facts");
+      data.skills.forEach((s) => fact(dl, s.nome, s.descricao));
+      skills.append(dl);
+    }
+
+    const list = slot("prompts");
+    data.prompts.forEach((p, i) => {
+      const n = String(i + 1).padStart(2, "0");
+      const item = el("li", "group prompt");
+      item.id = "prompt-" + n;
+      const head = el("header", "group__head");
+      head.append(el("h3", "prompt__num", "#" + n));
+      const when = el("time", "group__when"); when.dateTime = p.data; when.append(date(p.data));
+      head.append(when);
+      // no lang attribute here: the language toggle hides [lang] elements, and the prompt is always shown verbatim
+      const text = el("blockquote", "prompt__text", p.prompt);
+      const facts = el("dl", "facts");
+      if (p.skills && p.skills.length) {
+        const tags = el("ul", "tags tags--sm");
+        p.skills.forEach((s) => tags.append(el("li", "tag tag--llm", s)));
+        fact(facts, "Skills", tags);
+      }
+      if (p.resultado) fact(facts, { pt: "Resultado", en: "Result" }, p.resultado);
+      fact(facts, "Commit", p.commit ? commitLink(p.commit) : bi({ pt: "pendente", en: "pending" }));
+      item.append(head, text, facts);
+      list.append(item);
+    });
+
+    const last = data.prompts[data.prompts.length - 1];
+    const summary = slot("summary");
+    fact(summary, "Prompts", String(data.prompts.length));
+    fact(summary, "Skills", String(data.skills.length));
+    if (last) fact(summary, { pt: "Último prompt", en: "Latest prompt" }, date(last.data));
+  }
 
   /* ---------- OCR → JSON demo (case study page only) ---------- */
   const out = document.getElementById("demo-json");

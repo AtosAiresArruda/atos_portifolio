@@ -2,3 +2,5 @@ exclude:
   - PLANO.md
   - PRODUCT.md
   - README.md
+  - CLAUDE.md
+  - docs
