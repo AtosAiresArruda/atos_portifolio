@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="pt-BR" data-title-pt="TCC: OCR → JSON com gemma-4-E2B-it · Atos Aires Arruda" data-title-en="Thesis: OCR → JSON with gemma-4-E2B-it · Atos Aires Arruda">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TCC: OCR → JSON com gemma-4-E2B-it · Atos Aires Arruda</title>
+  <script>try { var l = localStorage.getItem("lang"); } catch (e) {} document.documentElement.lang = l || ((navigator.language || "pt").toLowerCase().indexOf("pt") === 0 ? "pt-BR" : "en");</script>
+  <meta name="description" content="Estudo de caso do TCC de Atos Aires Arruda: fine-tuning do gemma-4-E2B-it para ler documentos digitalizados e devolver JSON.">
+  <meta property="og:title" content="TCC: OCR → JSON com gemma-4-E2B-it">
+  <meta property="og:description" content="Fine-tuning de um modelo com visão para OCR → JSON, com menos processamento que os grandes modelos.">
+  <meta property="og:image" content="../images/perfil.jpg">
+  <meta name="theme-color" content="#f6f7f9">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232f3fe0'/%3E%3Ctext x='16' y='22' font-family='Arial' font-weight='700' font-size='16' fill='white' text-anchor='middle'%3EAA%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></symbol>
+    <symbol id="i-github" viewBox="0 0 24 24"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></symbol>
+    <symbol id="i-linkedin" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></symbol>
+    <symbol id="i-box" viewBox="0 0 24 24"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></symbol>
+    <symbol id="i-right" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+    <symbol id="i-left" viewBox="0 0 24 24"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></symbol>
+    <symbol id="i-replay" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></symbol>
+  </svg>
+
+  <a class="skip" href="#conteudo"><span lang="pt-BR">Pular para o conteúdo</span><span lang="en">Skip to content</span></a>
+
+  <header class="topbar">
+    <div class="wrap topbar__row">
+      <a class="repo" href="../" aria-label="Atos Aires Arruda: início">
+        <img class="repo__avatar" src="../images/perfil.jpg" alt="" width="28" height="28">
+        <span class="repo__path"><span class="repo__owner">AtosAiresArruda</span><span class="repo__sep">/</span><strong>atos-arruda</strong></span>
+      </a>
+      <div class="topbar__actions">
+        <div class="lang" role="group" aria-label="Idioma / Language">
+          <button type="button" data-set-lang="pt-BR" aria-pressed="true">PT</button>
+          <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
+        </div>
+        <a class="btn btn--primary" href="#contato">
+          <svg class="ico" aria-hidden="true"><use href="#i-mail"/></svg>
+          <span lang="pt-BR">Entrar em contato</span><span lang="en">Get in touch</span>
+        </a>
+      </div>
+    </div>
+    <nav class="tabs" aria-label="Sessões / Sections">
+      <div class="wrap tabs__row">
+        <a href="../" data-key="1"><span lang="pt-BR">Início</span><span lang="en">Home</span><kbd>1</kbd></a>
+        <a href="../trabalhos.html" data-key="2" class="is-active"><span lang="pt-BR">Trabalhos</span><span lang="en">Work</span><kbd>2</kbd></a>
+        <a href="#contato" data-key="3" data-contact><span lang="pt-BR">Contato</span><span lang="en">Contact</span><kbd>3</kbd></a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="conteudo" class="wrap page">
+    <div class="page-head">
+      <ol class="crumbs" aria-label="Caminho / Breadcrumb">
+        <li><a href="../"><span lang="pt-BR">Início</span><span lang="en">Home</span></a></li>
+        <li><a href="../trabalhos.html"><span lang="pt-BR">Trabalhos</span><span lang="en">Work</span></a></li>
+        <li aria-current="page"><span lang="pt-BR">TCC</span><span lang="en">Thesis</span></li>
+      </ol>
+      <p class="feature__chips">
+        <span class="chip chip--live"><span lang="pt-BR">TCC · 2026–2027</span><span lang="en">Thesis · 2026–2027</span></span>
+        <span class="chip"><span lang="pt-BR">Em treinamento</span><span lang="en">In training</span></span>
+      </p>
+      <h1><span lang="pt-BR">OCR → JSON com gemma-4-E2B-it</span><span lang="en">OCR → JSON with gemma-4-E2B-it</span></h1>
+      <p class="page-head__lede">
+        <span lang="pt-BR">Estou fazendo fine-tuning de um modelo com módulo de visão para ler documentos digitalizados e devolver JSON estruturado. A tese: chegar ao mesmo resultado dos grandes modelos de mercado e open-source consumindo menos processamento.</span>
+        <span lang="en">I'm fine-tuning a vision-language model to read scanned documents and return structured JSON. The thesis: match the output of large commercial and open-source models while using less compute.</span>
+      </p>
+    </div>
+
+    <div class="layout">
+      <div class="main">
+        <section class="block" aria-labelledby="h-tarefa">
+          <h2 id="h-tarefa"><span lang="pt-BR">A tarefa</span><span lang="en">The task</span></h2>
+          <p class="measure">
+            <span lang="pt-BR">O modelo recebe a imagem de um documento e precisa devolver os campos dele num JSON que outro sistema consiga usar direto.</span>
+            <span lang="en">The model gets an image of a document and has to return its fields as JSON that another system can use directly.</span>
+          </p>
+
+          <figure class="demo" aria-labelledby="demo-cap">
+            <div class="demo__stage">
+              <div class="scan" aria-hidden="true">
+                <div class="scan__sheet">
+                  <div class="scan__title" data-field="document_type">RECIBO DE PAGAMENTO</div>
+                  <div class="scan__row"><span class="scan__label">Emitente</span><span data-field="issuer">Papelaria Exemplo Ltda.</span></div>
+                  <div class="scan__row"><span class="scan__label">Data</span><span data-field="date">14/03/2026</span></div>
+                  <div class="scan__row scan__row--wide"><span class="scan__label">Referente a</span><span data-field="description">Material de escritório</span></div>
+                  <div class="scan__lines"><i></i><i></i><i></i></div>
+                  <div class="scan__total"><span class="scan__label">Valor total</span><span data-field="total">R$ 248,90</span></div>
+                  <div class="scan__sign">assinatura</div>
+                </div>
+              </div>
+              <div class="demo__arrow" aria-hidden="true">→</div>
+              <pre class="code code--json demo__out" aria-live="off"><code id="demo-json"></code></pre>
+            </div>
+            <figcaption id="demo-cap" class="demo__cap">
+              <span>
+                <span lang="pt-BR">Exemplo ilustrativo com dados sintéticos: mostra a tarefa que o modelo aprende, não um resultado medido.</span>
+                <span lang="en">Illustrative example with synthetic data: it shows the task the model learns, not a measured result.</span>
+              </span>
+              <button type="button" class="btn btn--ghost btn--sm" id="demo-replay">
+                <svg class="ico" aria-hidden="true"><use href="#i-replay"/></svg>
+                <span lang="pt-BR">Repetir</span><span lang="en">Replay</span>
+              </button>
+            </figcaption>
+          </figure>
+        </section>
+
+        <section class="block" aria-labelledby="h-etapas">
+          <h2 id="h-etapas"><span lang="pt-BR">Etapas</span><span lang="en">Stages</span></h2>
+          <ol class="steps">
+            <li class="step step--now">
+              <span class="step__state"><span lang="pt-BR">Agora</span><span lang="en">Now</span></span>
+              <div>
+                <h3><span lang="pt-BR">Prova de conceito com QLoRA</span><span lang="en">Proof of concept with QLoRA</span></h3>
+                <p><span lang="pt-BR">O QLoRA treina adaptadores pequenos sobre o modelo quantizado, o que permite testar a ideia com pouca memória de GPU.</span><span lang="en">QLoRA trains small adapters on top of the quantized model, which lets me test the idea with little GPU memory.</span></p>
+              </div>
+            </li>
+            <li class="step">
+              <span class="step__state"><span lang="pt-BR">Próxima</span><span lang="en">Next</span></span>
+              <div>
+                <h3><span lang="pt-BR">LoRA com o adaptador AdamW-Fusion</span><span lang="en">LoRA with the AdamW-Fusion adapter</span></h3>
+              </div>
+            </li>
+            <li class="step">
+              <span class="step__state"><span lang="pt-BR">Planejada</span><span lang="en">Planned</span></span>
+              <div>
+                <h3><span lang="pt-BR">Comparação com os grandes modelos</span><span lang="en">Comparison with large models</span></h3>
+                <p><span lang="pt-BR">Qualidade do JSON e custo de processamento contra modelos de mercado e open-source. Os números entram nesta página quando existirem.</span><span lang="en">JSON quality and compute cost against commercial and open-source models. The numbers go on this page once they exist.</span></p>
+              </div>
+            </li>
+          </ol>
+        </section>
+
+        <nav class="pager" aria-label="Navegação entre trabalhos / Project navigation">
+          <a class="link" href="../trabalhos.html">
+            <svg class="ico ico--sm" aria-hidden="true"><use href="#i-left"/></svg>
+            <span lang="pt-BR">Todos os trabalhos</span><span lang="en">All projects</span>
+          </a>
+          <a class="link" href="../trabalhos.html#stitching">
+            <span lang="pt-BR">Próximo: reconstrução de documentos</span><span lang="en">Next: document reconstruction</span>
+            <svg class="ico ico--sm" aria-hidden="true"><use href="#i-right"/></svg>
+          </a>
+        </nav>
+      </div>
+
+      <aside class="rail" aria-label="Ficha técnica / Spec">
+        <div class="rail__card">
+          <h2 class="rail__h"><span lang="pt-BR">Ficha técnica</span><span lang="en">Spec</span></h2>
+          <dl class="meta">
+            <div><dt><span lang="pt-BR">Modelo base</span><span lang="en">Base model</span></dt><dd><code>gemma-4-E2B-it</code></dd></div>
+            <div><dt><span lang="pt-BR">Tarefa</span><span lang="en">Task</span></dt><dd><span lang="pt-BR">OCR de documentos digitalizados → JSON</span><span lang="en">OCR of scanned documents → JSON</span></dd></div>
+            <div><dt><span lang="pt-BR">Método atual</span><span lang="en">Current method</span></dt><dd><span lang="pt-BR">QLoRA (prova de conceito)</span><span lang="en">QLoRA (proof of concept)</span></dd></div>
+            <div><dt><span lang="pt-BR">Próxima etapa</span><span lang="en">Next step</span></dt><dd><span lang="pt-BR">LoRA com adaptador AdamW-Fusion</span><span lang="en">LoRA with AdamW-Fusion adapter</span></dd></div>
+            <div><dt><span lang="pt-BR">Objetivo</span><span lang="en">Goal</span></dt><dd><span lang="pt-BR">Mesmo resultado dos modelos grandes, com menos processamento</span><span lang="en">Same output as large models, with less compute</span></dd></div>
+          </dl>
+          <ul class="tags tags--sm">
+            <li class="tag tag--llm">QLoRA</li><li class="tag tag--llm">LoRA</li><li class="tag tag--llm">Unsloth</li><li class="tag">Python</li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="footer" id="contato" aria-labelledby="h-contato">
+    <div class="wrap footer__grid">
+      <div>
+        <h2 class="footer__h" id="h-contato"><span lang="pt-BR">Contato</span><span lang="en">Contact</span></h2>
+<pre class="code code--py"><code><span class="k">from</span> portfolio <span class="k">import</span> Candidate
+
+atos = Candidate.from_pretrained(<span class="s">"AtosAiresArruda/atos-arruda"</span>)
+atos.contact(email=<span class="s">"arruda.atos@gmail.com"</span>)</code></pre>
+        <div class="contact">
+          <a class="btn btn--primary" href="mailto:arruda.atos@gmail.com">
+            <svg class="ico" aria-hidden="true"><use href="#i-mail"/></svg>
+            arruda.atos@gmail.com
+          </a>
+          <button type="button" class="btn btn--ghost" data-copy="arruda.atos@gmail.com">
+            <svg class="ico" aria-hidden="true"><use href="#i-copy"/></svg>
+            <span class="copy-label"><span lang="pt-BR">Copiar e-mail</span><span lang="en">Copy e-mail</span></span>
+          </button>
+          <a class="btn btn--ghost" href="https://linkedin.com/in/atos-arruda-6b903422a" target="_blank" rel="noopener">
+            <svg class="ico" aria-hidden="true"><use href="#i-linkedin"/></svg> LinkedIn
+          </a>
+          <a class="btn btn--ghost" href="https://github.com/AtosAiresArruda" target="_blank" rel="noopener">
+            <svg class="ico" aria-hidden="true"><use href="#i-github"/></svg> GitHub
+          </a>
+          <a class="btn btn--ghost" href="https://huggingface.co/AtosArruda" target="_blank" rel="noopener">
+            <svg class="ico" aria-hidden="true"><use href="#i-box"/></svg> Hugging Face
+          </a>
+        </div>
+      </div>
+      <div>
+        <h2 class="footer__h"><span lang="pt-BR">Citação</span><span lang="en">Citation</span></h2>
+<pre class="code code--bib"><code>@misc{<span class="s">arruda2026</span>,
+  <span class="k">author</span> = {Atos Aires Arruda},
+  <span class="k">title</span>  = {atos-arruda: LLM fine-tuning &amp; computer vision},
+  <span class="k">year</span>   = {2026},
+  <span class="k">url</span>    = {https://atosairesarruda.github.io/atos_portifolio/}
+}</code></pre>
+        <p class="footer__note">© 2026 Atos Aires Arruda</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../script.js"></script>
+</body>
+</html>

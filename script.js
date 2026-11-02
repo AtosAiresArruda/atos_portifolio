@@ -4,10 +4,8 @@
   root.classList.add("js");
 
   /* ---------- language ---------- */
-  const titles = {
-    "pt-BR": "Atos Aires Arruda · LLM & Visão Computacional",
-    en: "Atos Aires Arruda · LLM & Computer Vision",
-  };
+  // each page carries its own titles; the inline <head> script already set html.lang to avoid a flash
+  const titles = { "pt-BR": root.dataset.titlePt, en: root.dataset.titleEn };
   const langButtons = document.querySelectorAll("[data-set-lang]");
 
   function readStoredLang() {
@@ -16,7 +14,7 @@
 
   function setLang(lang, persist) {
     root.lang = lang;
-    document.title = titles[lang];
+    if (titles[lang]) document.title = titles[lang];
     langButtons.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.setLang === lang)));
     if (persist) {
       try { localStorage.setItem("lang", lang); } catch (e) { /* private mode */ }
@@ -27,24 +25,21 @@
   setLang(initial, false);
   langButtons.forEach((b) => b.addEventListener("click", () => setLang(b.dataset.setLang, true)));
 
-  /* ---------- tabs: scrollspy + keyboard shortcuts ---------- */
+  /* ---------- session tabs: contact lights up when the footer is in view ---------- */
   const tabs = Array.from(document.querySelectorAll(".tabs a"));
-  const sections = tabs.map((t) => document.querySelector(t.getAttribute("href")));
+  const pageTab = tabs.find((t) => t.classList.contains("is-active"));
+  const contactTab = tabs.find((t) => t.hasAttribute("data-contact"));
+  const contact = document.getElementById("contato");
 
-  function markActive(id) {
-    tabs.forEach((t) => t.setAttribute("aria-current", String(t.getAttribute("href") === "#" + id)));
+  if (contact && contactTab) {
+    new IntersectionObserver((entries) => {
+      const inView = entries.some((e) => e.isIntersecting);
+      contactTab.classList.toggle("is-active", inView);
+      if (pageTab) pageTab.classList.toggle("is-active", !inView);
+    }, { rootMargin: "0px 0px -35% 0px" }).observe(contact);
   }
 
-  const visible = new Map();
-  const spy = new IntersectionObserver((entries) => {
-    entries.forEach((e) => visible.set(e.target.id, e.isIntersecting ? e.intersectionRatio : 0));
-    // "Intended use" sits right above contact and shares its tab
-    let best = null, bestRatio = 0;
-    visible.forEach((ratio, id) => { if (ratio > bestRatio) { best = id; bestRatio = ratio; } });
-    if (best) markActive(best === "uso" ? "contato" : best);
-  }, { rootMargin: "-120px 0px -45% 0px", threshold: [0, .1, .25, .5, .75, 1] });
-  sections.concat(document.getElementById("uso")).forEach((s) => s && spy.observe(s));
-
+  /* ---------- keyboard shortcuts 1–3 ---------- */
   document.addEventListener("keydown", (e) => {
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     const tag = (e.target.tagName || "").toLowerCase();
@@ -52,10 +47,35 @@
     const tab = tabs.find((t) => t.dataset.key === e.key);
     if (!tab) return;
     e.preventDefault();
-    const target = document.querySelector(tab.getAttribute("href"));
-    target.scrollIntoView({ block: "start" });
-    history.replaceState(null, "", tab.getAttribute("href"));
+    const href = tab.getAttribute("href");
+    if (href.startsWith("#")) {
+      document.querySelector(href).scrollIntoView({ block: "start" });
+      history.replaceState(null, "", href);
+    } else {
+      window.location.href = tab.href;
+    }
   });
+
+  /* ---------- table of contents: scrollspy ---------- */
+  const tocLinks = Array.from(document.querySelectorAll(".toc a"));
+  if (tocLinks.length) {
+    const visible = new Map();
+    const spy = new IntersectionObserver((entries) => {
+      entries.forEach((e) => visible.set(e.target.id, e.isIntersecting ? e.intersectionRatio : 0));
+      // the most specific visible target wins: a project inside a group beats the group itself
+      let best = null, bestRatio = 0;
+      tocLinks.forEach((a) => {
+        const id = a.getAttribute("href").slice(1);
+        const r = visible.get(id) || 0;
+        if (r > 0 && (r >= bestRatio || a.closest(".toc__sub"))) { best = id; bestRatio = r; }
+      });
+      if (best) tocLinks.forEach((a) => a.classList.toggle("is-active", a.getAttribute("href") === "#" + best));
+    }, { rootMargin: "-120px 0px -55% 0px", threshold: [0, .1, .25, .5, .75, 1] });
+    tocLinks.forEach((a) => {
+      const target = document.querySelector(a.getAttribute("href"));
+      if (target) spy.observe(target);
+    });
+  }
 
   /* ---------- copy buttons ---------- */
   document.querySelectorAll("[data-copy]").forEach((btn) => {
@@ -73,8 +93,9 @@
     });
   });
 
-  /* ---------- OCR → JSON demo ---------- */
+  /* ---------- OCR → JSON demo (case study page only) ---------- */
   const out = document.getElementById("demo-json");
+  if (!out) return;
   const replay = document.getElementById("demo-replay");
   const fields = [
     ["document_type", "s", "receipt"],

@@ -4,7 +4,7 @@ Portfólio de **Atos Aires Arruda**: estudante de Ciência da Computação (UTFP
 
 Site: https://atosairesarruda.github.io/atos_portifolio/
 
-- `index.html`, `styles.css`, `script.js`: o site (estático, sem build).
+- `index.html` (Início), `trabalhos.html` (Trabalhos), `trabalhos/tcc.html` (estudo de caso), `styles.css`, `script.js`: o site (estático, sem build).
 - `images/`: foto de perfil.
 - `PLANO.md`: plano de melhorias e edições.
 - `PRODUCT.md`, `.impeccable/`: contexto de design usado pela skill [impeccable](https://impeccable.style/).
