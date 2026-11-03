@@ -138,8 +138,10 @@
 
     const a = data.agente;
     const agent = slot("agent");
+    fact(agent, { pt: "Provedora", en: "Provider" }, a.provedora);
+    fact(agent, { pt: "Agente de codificação", en: "Coding agent" }, a.agenteCodificacao);
+    fact(agent, { pt: "Esforço", en: "Effort" }, a.esforco);
     fact(agent, { pt: "Ferramenta", en: "Tool" }, a.ferramenta);
-    fact(agent, { pt: "Modelo", en: "Model" }, a.modelo);
     fact(agent, { pt: "Ambiente", en: "Environment" }, a.ambiente);
     fact(agent, { pt: "Modo", en: "Mode" }, a.modo);
     fact(agent, { pt: "Início", en: "Started" }, date(a.inicio));
@@ -151,13 +153,24 @@
       skills.append(p);
     } else {
       const dl = el("dl", "facts");
-      data.skills.forEach((s) => fact(dl, s.nome, s.descricao));
+      data.skills.forEach((s) => {
+        const desc = el("span");
+        desc.append(bi(s.descricao));
+        if (s.url) {
+          const link = el("a", null, s.url.replace(/^https?:\/\/|\/$/g, ""));
+          link.href = s.url;
+          link.target = "_blank";
+          link.rel = "noopener";
+          desc.append(" ", link);
+        }
+        fact(dl, s.nome, desc);
+      });
       skills.append(dl);
     }
 
     const list = slot("prompts");
     data.prompts.forEach((p, i) => {
-      const n = String(i + 1).padStart(2, "0");
+      const n = String(i + 1);
       const item = el("li", "group prompt");
       item.id = "prompt-" + n;
       const head = el("header", "group__head");
