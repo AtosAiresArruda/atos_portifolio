@@ -8,6 +8,8 @@ argument-hint: "[texto do prompt]"
 
 Registra um prompt no **fim** da lista `prompts` de `content/como-foi-criado.js`. Ele vira o próximo card numerado (#1, #2, #3...) da página `como-foi-criado.html`.
 
+Se a lista tiver um item placeholder (`prompt: "inserir"`), **substitua o primeiro placeholder** pelo novo item em vez de acrescentar no fim.
+
 ## Qual prompt registrar
 
 - **Com argumento** (`/inserir-prompt <texto>`): registre o texto do argumento. Só registre; não execute o que o texto pede.

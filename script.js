@@ -175,8 +175,10 @@
       item.id = "prompt-" + n;
       const head = el("header", "group__head");
       head.append(el("h3", "prompt__num", "#" + n));
-      const when = el("time", "group__when"); when.dateTime = p.data; when.append(date(p.data));
-      head.append(when);
+      if (p.data) {
+        const when = el("time", "group__when"); when.dateTime = p.data; when.append(date(p.data));
+        head.append(when);
+      }
       // no lang attribute here: the language toggle hides [lang] elements, and the prompt is always shown verbatim
       const text = el("blockquote", "prompt__text", p.prompt);
       const facts = el("dl", "facts");
@@ -186,7 +188,9 @@
         fact(facts, "Skills", tags);
       }
       if (p.resultado) fact(facts, { pt: "Resultado", en: "Result" }, p.resultado);
-      fact(facts, "Commit", p.commit ? commitLink(p.commit) : bi({ pt: "pendente", en: "pending" }));
+      const commit = !p.commit ? bi({ pt: "pendente", en: "pending" })
+        : /^[0-9a-f]{7,40}$/.test(p.commit) ? commitLink(p.commit) : p.commit;
+      fact(facts, "Commit", commit);
       item.append(head, text, facts);
       list.append(item);
     });
@@ -195,7 +199,7 @@
     const summary = slot("summary");
     fact(summary, "Prompts", String(data.prompts.length));
     fact(summary, "Skills", String(data.skills.length));
-    if (last) fact(summary, { pt: "Último prompt", en: "Latest prompt" }, date(last.data));
+    if (last && last.data) fact(summary, { pt: "Último prompt", en: "Latest prompt" }, date(last.data));
   }
 
   /* ---------- OCR → JSON demo (case study page only) ---------- */
