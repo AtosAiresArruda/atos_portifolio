@@ -78,21 +78,21 @@ window.COMO_FOI_CRIADO = {
       prompt: "Vamos trabalhar na aba \"início\". Baixe a skill inpeccable da fonte https://impeccable.style/. Utilize a skill critique do inpeccable para criticar a aba Início. Vamos revisar as criticas e comparar ao plano de implementação P2.",
       skills: ["impeccable"],
       resultado: { pt: "Skill impeccable instalada; crítica da aba Início (nota 21/32) comparada ao plano P2, com decisão de pôr o TCC antes das habilidades e tirar as barras de nível.", en: "Installed the impeccable skill; critiqued the Home tab (21/32) against the P2 plan and decided to put the thesis before the skills and drop the level bars." },
-      commit: null
+      commit: "fcdb032"
     },
     {
       data: "2026-11-03",
       prompt: "realize 1. 2. 3. e 4. em sequencia",
       skills: ["impeccable", "built-in-browser"],
       resultado: { pt: "Início reordenada (TCC antes das habilidades), habilidades enxutas sem barras de nível e botão de contato do celular com nome acessível.", en: "Reordered Home (thesis before skills), trimmed the skills without level bars and gave the mobile contact button an accessible name." },
-      commit: null
+      commit: "fcdb032"
     },
     {
       data: "2026-11-03",
       prompt: "Sim, commitar",
       skills: [],
       resultado: { pt: "Commit da crítica e das mudanças na aba Início.", en: "Committed the critique and the Home tab changes." },
-      commit: null
+      commit: "fcdb032"
     }
   ]
 };
