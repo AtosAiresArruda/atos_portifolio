@@ -1,1 +1,7 @@
 .claude/
+
+# Chaves SSH (inclui o par criado por engano com nome "eval $(ssh-agent -s)")
+*ssh-agent*
+id_rsa*
+id_ed25519*
+*.pem
