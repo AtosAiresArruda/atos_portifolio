@@ -37,6 +37,13 @@ window.COMO_FOI_CRIADO = {
       skills: [],
       resultado: null,
       commit: null
+    },
+    {
+      data: "2026-11-03",
+      prompt: "## Objetivo\nVamos atualizar a aba \"Início\".\n\n## Atualizações\n1. **Foto**: troque a foto de perfil pela imagem `images/perfil_Original.jpeg`.\n2. **Resumo (parágrafo abaixo do nome)**: substitua o texto atual por:\n   \"Quero ingressar em um **estágio com foco em IA e automação** para desenvolver meu conhecimento técnico na tecnologia que irá dominar o mercado, os LLMs, para produzir, adaptar e melhorar modelos de IA especializados.\"\n3. **Título do TCC**: troque o título atual por \"Fine-tuning de modelos para a atividade de OCR → JSON\".\n4. **Status do TCC**: troque \"Em treinamento\" por \"Produzindo\".\n5. **Hard skills**: retire da lista os itens abaixo e mova-os para a lista \"Linguagens e ferramentas\" (veja o item 7):\n   - QLoRA, LoRA, Unsloth;\n   - Agentes de codificação, prompt engineering, SDD (onde usei: Este site).\n6. **Soft skills**: a lista passa a ter exatamente estes itens:\n   1. Liderança;\n   2. Comunicação e trabalho em equipe;\n   3. Gestão de prazos e recursos técnicos;\n   4. Visão analítica e solução de problemas;\n   5. Aprendizagem autodidata.\n7. **Linguagens e ferramentas**: a lista passa a ter exatamente estes itens, com os respectivos \"onde usei\":\n   1. Python: IC, TCC;\n   2. C: UTFPR (com link para o perfil da UTFPR no LinkedIn), Comando;\n   3. Git: sem link;\n   4. QLoRA, LoRA, Unsloth: TCC;\n   5. Agentes de codificação, prompt engineering, SDD: Este site.\n\n## Acréscimos\n1. Na linha abaixo da descrição, hoje \"UTFPR · 6º de 8 períodos · 2024–2028\":\n   - troque o texto \"UTFPR\" por um ícone pequeno da UTFPR, com link para o perfil da UTFPR no LinkedIn: https://www.linkedin.com/company/utfpr/home/;\n   - obtenha o ícone da UTFPR a partir desse perfil do LinkedIn;\n   - depois do ícone, acrescente que estou cursando Ciência da Computação.\n2. A linha deve ficar assim: \"[ícone da UTFPR] · Bacharel em Ciência da Computação · 6º de 8 períodos · 2024–2028\".",
+      skills: [],
+      resultado: null,
+      commit: null
     }
   ]
 };
