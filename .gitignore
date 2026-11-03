@@ -1,4 +1,6 @@
-.claude/
+# Config local do Claude Code fica fora; as skills do projeto entram no repositório
+.claude/*
+!.claude/skills/
 
 # Chaves SSH (inclui o par criado por engano com nome "eval $(ssh-agent -s)")
 *ssh-agent*

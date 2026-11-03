@@ -263,6 +263,7 @@ kbd {
 .rail__card { background: var(--surface); border: 1px solid var(--rule); border-radius: var(--r); padding: 18px; }
 .rail__h { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 12px; }
 .rail .tags { margin-top: 16px; }
+.rail__note { margin: 0 0 16px; font-size: 14px; color: var(--ink-2); }
 .meta { margin: 0; display: grid; gap: 12px; }
 .meta div { display: grid; gap: 2px; }
 .meta dt { font-size: 12.5px; color: var(--ink-3); }
