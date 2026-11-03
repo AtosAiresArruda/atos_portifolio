@@ -136,10 +136,13 @@ kbd {
 .intro__meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 20px; margin-top: 12px; font-size: 14px; color: var(--ink-3); }
 .status { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; color: var(--ink); }
 .status__dot { width: 8px; height: 8px; border-radius: 50%; background: var(--prod-fg); box-shadow: 0 0 0 4px var(--prod-bg); }
+.edu__logo { display: inline-block; vertical-align: -5px; margin-right: 2px; border-radius: 4px; }
+.edu__logo img { width: auto; height: 20px; }
+.edu__logo:hover img { opacity: .8; }
 
 /* ---------- home: skills (reference, after the proof) ---------- */
 .skills {
-  display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr) minmax(0, 1.1fr);
+  display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.25fr) minmax(0, 1fr);
   background: var(--surface); border: 1px solid var(--rule); border-radius: var(--r);
 }
 .skills__col { padding: 18px 22px 8px; min-width: 0; }
