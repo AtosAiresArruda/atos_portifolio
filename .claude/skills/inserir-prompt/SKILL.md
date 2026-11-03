@@ -30,14 +30,24 @@ Se não houver um prompt claro para registrar, pergunte ao usuário antes de ins
 }
 ```
 
-- `prompt`: o **conteúdo integral**, exatamente como o usuário escreveu, sem resumir, corrigir ou traduzir. Preserve quebras de linha com `\n` e escape aspas. Única exceção: troque senhas, chaves de API, tokens e e-mails por `[removido]`.
+- `prompt`: o texto **refinado** (veja "Refinar o prompt" abaixo), com todo o conteúdo do original, sem resumir nem traduzir. Preserve quebras de linha com `\n` e escape aspas. Troque senhas, chaves de API, tokens e e-mails por `[removido]`.
 - `data`: data em que o prompt foi enviado (`AAAA-MM-DD`).
 - `skills`: nomes das skills invocadas para atender o prompt (`[]` se nenhuma). Não conte a própria `inserir-prompt`.
 - `resultado`: uma frase em `{ pt, en }` sobre o que foi feito. Se o texto foi só registrado (caso com argumento), use `null`.
 - `commit`: hash curto do commit que resultou do prompt, ou `null`. Se o commit for feito depois, atualize o item.
 
+## Refinar o prompt
+
+Antes de gravar o campo `prompt`, faça três ajustes no texto, mantendo o idioma original:
+
+1. **Ortografia**: corrija erros de digitação, acentuação, pontuação e grafia de nomes próprios (GitHub, LinkedIn, Anthropic...). Troque `/n` digitado por quebra de linha.
+2. **Formatação**: organize o texto em seções com títulos `##` (ex.: Contexto, Objetivo, Tarefa) quando ele tiver mais de uma parte; use listas numeradas para passos e itens, e uma informação por linha.
+3. **Ambiguidade**: reescreva frases que admitem mais de uma leitura para que fiquem com um só sentido. Para decidir o sentido, consulte o que existe no repositório (páginas, commits, `PLANO.md`). Se nem o repositório resolver, pergunte ao usuário antes de gravar.
+
+Limites: não acrescente pedidos, requisitos ou informações que o original não tinha, e não remova nenhum pedido. O refinamento muda a forma, nunca o conteúdo.
+
 ## Depois de inserir
 
 1. Se uma skill aparece pela primeira vez, adicione-a à lista `skills` do arquivo (`nome`, `descricao: { pt, en }` e, se houver, `url`).
 2. Se a configuração do agente mudou (provedora, agente de codificação, esforço, ambiente, modo), atualize `agente`.
-3. Diga ao usuário o número do card criado (#N = posição na lista).
+3. Diga ao usuário o número do card criado (#N = posição na lista) e liste os refinamentos feitos: correções de ortografia, mudanças de formatação e cada ambiguidade resolvida, com a leitura escolhida.

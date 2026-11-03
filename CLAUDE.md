@@ -2,7 +2,7 @@
 
 ## Registro de prompts (aba "Como esse site foi criado")
 
-A página `como-foi-criado.html` mostra, em cards numerados (#1, #2, #3...), os prompts escolhidos para reproduzir este site. Os dados ficam em `content/como-foi-criado.js` e são renderizados pela seção "build log" de `script.js`. O site é bilíngue (PT/EN): textos exibidos, como `resultado`, usam `{ pt, en }`; o `prompt` fica só no original.
+A página `como-foi-criado.html` mostra, em cards numerados (#1, #2, #3...), os prompts escolhidos para reproduzir este site. Os dados ficam em `content/como-foi-criado.js` e são renderizados pela seção "build log" de `script.js`. O site é bilíngue (PT/EN): textos exibidos, como `resultado`, usam `{ pt, en }`; o `prompt` fica só no idioma original, refinado pela skill `/inserir-prompt`.
 
 **Um prompt só entra na lista em dois casos:**
 
