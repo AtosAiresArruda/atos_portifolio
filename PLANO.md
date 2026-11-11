@@ -106,8 +106,8 @@ Ordem do conteúdo, de cima para baixo:
 
 ### P2.2 Revisão com a skill (depois de P2.1)
 
-- [ ] `/impeccable critique`: revisão heurística das sessões novas, com nota.
-- [ ] `/impeccable audit`: acessibilidade, performance, responsivo.
+- [x] `/impeccable critique`: revisão heurística das sessões novas, com nota. Feito em 2026-11-11 (22/32, Aceitável): [docs/relatorio-p2.2-critique.md](docs/relatorio-p2.2-critique.md).
+- [x] `/impeccable audit`: acessibilidade, performance, responsivo. Feito em 2026-11-11 (14/20, Bom): [docs/relatorio-p2.2-audit.md](docs/relatorio-p2.2-audit.md).
 
 ### P2.3 Visual
 
