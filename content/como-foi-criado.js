@@ -44,6 +44,13 @@ window.COMO_FOI_CRIADO = {
       skills: [],
       resultado: null,
       commit: null
+    },
+    {
+      data: "2026-11-11",
+      prompt: "## Contexto\nPrecisamos validar a visibilidade e a responsividade do site. Vamos usar a skill Impeccable, com os comandos `critique` e `audit`, para guiar a revisão. As duas tarefas abaixo fazem parte da etapa P2.2 do `PLANO.md`.\n\n## Tarefa P2.2 (1/2): `/impeccable critique`\n1. Revise todas as abas do site: Início, Trabalhos e Como foi criado (a aba Contato leva ao rodapé, presente em todas).\n2. Com base na resposta do critique, faça um relatório com as informações que o `/impeccable critique` retornou.\n3. Não implemente nada: eu vou revisar o relatório e guiar a implementação depois.\n\n## Tarefa P2.2 (2/2): `/impeccable audit`\n1. Revise a acessibilidade, a performance e a responsividade das mesmas abas.\n2. Faça um relatório com as informações que o `/impeccable audit` retornou.\n3. Não implemente nada: eu vou revisar o relatório e guiar a implementação depois.",
+      skills: [],
+      resultado: null,
+      commit: null
     }
   ]
 };
