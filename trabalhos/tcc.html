@@ -32,12 +32,13 @@
 
   <header class="topbar">
     <div class="wrap topbar__row">
-      <a class="repo" href="../" aria-label="Atos Aires Arruda: início">
+      <a class="repo" href="../">
         <img class="repo__avatar" src="../images/perfil.jpg" alt="" width="28" height="28">
-        <span class="repo__path"><span class="repo__owner">AtosAiresArruda</span><span class="repo__sep">/</span><strong>atos-arruda</strong></span>
+        <span class="repo__path"><span class="repo__owner">AtosAiresArruda</span><span class="repo__sep">/</span><strong>atos-arruda</strong></span><span class="sr-only">: <span lang="pt-BR">início</span><span lang="en">home</span></span>
       </a>
       <div class="topbar__actions">
-        <div class="lang" role="group" aria-label="Idioma / Language">
+        <div class="lang" role="group" aria-labelledby="lbl-lang">
+          <span id="lbl-lang" class="sr-only"><span lang="pt-BR">Idioma</span><span lang="en">Language</span></span>
           <button type="button" data-set-lang="pt-BR" aria-pressed="true">PT</button>
           <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
         </div>
@@ -47,10 +48,11 @@
         </a>
       </div>
     </div>
-    <nav class="tabs" aria-label="Sessões / Sections">
+    <nav class="tabs" aria-labelledby="lbl-tabs">
+      <span id="lbl-tabs" class="sr-only"><span lang="pt-BR">Sessões</span><span lang="en">Sections</span></span>
       <div class="wrap tabs__row">
         <a href="../" data-key="1"><span lang="pt-BR">Início</span><span lang="en">Home</span><kbd aria-hidden="true">1</kbd></a>
-        <a href="../trabalhos.html" data-key="2" class="is-active"><span lang="pt-BR">Trabalhos</span><span lang="en">Work</span><kbd aria-hidden="true">2</kbd></a>
+        <a href="../trabalhos.html" data-key="2" class="is-active" aria-current="true"><span lang="pt-BR">Trabalhos</span><span lang="en">Work</span><kbd aria-hidden="true">2</kbd></a>
         <a href="../como-foi-criado.html" data-key="3"><span lang="pt-BR">Como foi criado</span><span lang="en">How it was built</span><kbd aria-hidden="true">3</kbd></a>
         <a href="#contato" data-key="4" data-contact><span lang="pt-BR">Contato</span><span lang="en">Contact</span><kbd aria-hidden="true">4</kbd></a>
       </div>
@@ -59,7 +61,8 @@
 
   <main id="conteudo" class="wrap page">
     <div class="page-head">
-      <ol class="crumbs" aria-label="Caminho / Breadcrumb">
+      <span id="lbl-crumbs" class="sr-only"><span lang="pt-BR">Caminho</span><span lang="en">Breadcrumb</span></span>
+      <ol class="crumbs" aria-labelledby="lbl-crumbs">
         <li><a href="../"><span lang="pt-BR">Início</span><span lang="en">Home</span></a></li>
         <li><a href="../trabalhos.html"><span lang="pt-BR">Trabalhos</span><span lang="en">Work</span></a></li>
         <li aria-current="page"><span lang="pt-BR">TCC</span><span lang="en">Thesis</span></li>
@@ -139,7 +142,8 @@
           </ol>
         </section>
 
-        <nav class="pager" aria-label="Navegação entre trabalhos / Project navigation">
+        <nav class="pager" aria-labelledby="lbl-pager">
+          <span id="lbl-pager" class="sr-only"><span lang="pt-BR">Navegação entre trabalhos</span><span lang="en">Project navigation</span></span>
           <a class="link" href="../trabalhos.html">
             <svg class="ico ico--sm" aria-hidden="true"><use href="#i-left"/></svg>
             <span lang="pt-BR">Todos os trabalhos</span><span lang="en">All projects</span>
@@ -151,7 +155,8 @@
         </nav>
       </div>
 
-      <aside class="rail" aria-label="Ficha técnica / Spec">
+      <aside class="rail" aria-labelledby="lbl-rail">
+        <span id="lbl-rail" class="sr-only"><span lang="pt-BR">Ficha técnica</span><span lang="en">Spec</span></span>
         <div class="rail__card">
           <h2 class="rail__h"><span lang="pt-BR">Ficha técnica</span><span lang="en">Spec</span></h2>
           <dl class="meta">
@@ -176,7 +181,7 @@
 <pre class="code code--py"><code><span class="k">from</span> portfolio <span class="k">import</span> Candidate
 
 atos = Candidate.from_pretrained(<span class="s">"AtosAiresArruda/atos-arruda"</span>)
-atos.contact(email=<span class="s">"arruda.atos@gmail.com"</span>)</code></pre>
+atos.contact(email=<wbr><span class="s">"arruda.atos@gmail.com"</span>)</code></pre>
         <div class="contact">
           <a class="btn btn--primary" href="mailto:arruda.atos@gmail.com">
             <svg class="ico" aria-hidden="true"><use href="#i-mail"/></svg>
@@ -186,16 +191,17 @@ atos.contact(email=<span class="s">"arruda.atos@gmail.com"</span>)</code></pre>
             <svg class="ico" aria-hidden="true"><use href="#i-copy"/></svg>
             <span class="copy-label"><span lang="pt-BR">Copiar e-mail</span><span lang="en">Copy e-mail</span></span>
           </button>
+          <a class="btn btn--ghost" href="https://huggingface.co/AtosArruda" target="_blank" rel="noopener">
+            <svg class="ico" aria-hidden="true"><use href="#i-box"/></svg> Hugging Face
+          </a>
           <a class="btn btn--ghost" href="https://linkedin.com/in/atos-arruda-6b903422a" target="_blank" rel="noopener">
             <svg class="ico" aria-hidden="true"><use href="#i-linkedin"/></svg> LinkedIn
           </a>
           <a class="btn btn--ghost" href="https://github.com/AtosAiresArruda" target="_blank" rel="noopener">
             <svg class="ico" aria-hidden="true"><use href="#i-github"/></svg> GitHub
           </a>
-          <a class="btn btn--ghost" href="https://huggingface.co/AtosArruda" target="_blank" rel="noopener">
-            <svg class="ico" aria-hidden="true"><use href="#i-box"/></svg> Hugging Face
-          </a>
         </div>
+        <div id="copy-status" class="sr-only" role="status"></div>
       </div>
       <div>
         <h2 class="footer__h"><span lang="pt-BR">Citação</span><span lang="en">Citation</span></h2>

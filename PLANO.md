@@ -130,10 +130,10 @@ Ordem do conteúdo, de cima para baixo:
 
 #### Ordem de execução
 
-1. **A1 e A2:** os dois problemas graves (P1) do audit. São pequenos e isolados.
+1. **A1 e A2 ✅:** os dois problemas graves (P1) do audit. São pequenos e isolados.
 2. **D1:** brief atualizado, antes de mexer no layout.
-3. **B1, B2 e A7/A8:** estrutura da Início, de "Como foi criado" e do TCC no celular.
-4. **A3–A6, A9, A10:** acessibilidade e celular.
+3. **B1, B2 e A7/A8:** estrutura da Início, de "Como foi criado" e do TCC no celular. B2, A7 e A8 ✅; falta o B1.
+4. **A3–A6, A9, A10 ✅:** acessibilidade e celular.
 5. **Bloco C:** conforme você entregar os textos. Pode correr em paralelo.
 6. **A11–A18:** junto com o P2.3 (`typeset` e a decisão sobre a Geist).
 7. **Fechamento:** `/impeccable critique` + `/impeccable audit` de novo, e `/impeccable polish` por último.
@@ -144,14 +144,14 @@ Ordem do conteúdo, de cima para baixo:
 |---|---|---|---|---|---|
 | A1 ✅ | P1 | Atalhos 1–4 só com foco na página. O `4` move o foco para o rodapé (`tabindex="-1"` + `.focus()`). `aria-current` acompanha a aba Contato. `<kbd>` com `aria-hidden` (as abas deixam de ser lidas "Início 1"). | [script.js:43–57](script.js), navegação das 4 páginas | `harden` | Com o foco num botão ou link, 1–4 não fazem nada; depois do `4`, o próximo Tab segue no rodapé (WCAG 2.1.4 e 2.4.3). |
 | A2 ✅ | P1 | Bug de cascata da demo JSON: `.code .k/.s` sobrescreve `.demo__out .k/.s`. Criar tokens do painel escuro (`--code-dark-*`). | [styles.css:297–298](styles.css) e [:359–360](styles.css) | `colorize` | Chaves e textos da demo com contraste ≥ 4,5:1 (hoje 1,98:1 e 2,6:1). |
-| A3 | P2 | `aria-label` bilíngues via `aria-labelledby` (7 ocorrências "PT / EN"), nome do logo começando pelo texto visível, `lang="pt"` no `blockquote` dos prompts. | 4 páginas, [script.js:182–183](script.js) | `harden` | O leitor de tela em EN não lê rótulos em PT (WCAG 3.1.2 e 2.5.3). |
-| A4 | P2 | "Copiado!" anunciado por `role="status"`; falha da cópia visível, no lugar do `mailto:` silencioso. | [script.js:84–93](script.js) | `harden` | Confirmação anunciada (WCAG 4.1.3). |
-| A5 | P2 | `aria-current` na aba-mãe das subpáginas ("Trabalhos" no estudo de caso). | [trabalhos/tcc.html:53](trabalhos/tcc.html) | `polish` | Aba ativa anunciada em todas as páginas. |
-| A6 | P2 | Anel de foco cortado na linha de abas do celular (`outline-offset: -2px` ou padding vertical). | [styles.css:417](styles.css) | `polish` | Contorno completo visível em 375px. |
-| A7 | P2 | Ordem do trilho lateral igual à ordem visual em ≤960px. No estudo de caso, a demo vem antes da ficha técnica no celular. | [styles.css:387](styles.css), Trabalhos e TCC | `layout` | A ordem de Tab segue a ordem visual; no celular a demo começa antes de y≈1086. |
-| A8 | P2 | Demo JSON: empilhar a partir de ~900px e quebrar linha na saída (`pre-wrap`). | [styles.css:288](styles.css) e [:399](styles.css) | `adapt` | Nenhum texto da demo cortado em 1440, 768, 375 e 320px. |
-| A9 | P2 | Rodapé: BibTeX e snippet quebram linha (o e-mail aparece inteiro no celular), `<pre>` focável com `tabindex="0"` e `aria-label`, Hugging Face logo depois do e-mail. | rodapé das 4 páginas | `polish` | Sem rolagem lateral nos blocos de código em 1440 e 375px. |
-| A10 | P2 | Celular: alvos de 44px em `pointer: coarse` (PT/EN 36×30, contato 36×36, links-CTA de 22px); indicação de rolagem nas abas em 320px ("Contato" cortado); cabeçalho solto em telas baixas (`max-height: 500px`). | [styles.css:87–93](styles.css), [:105](styles.css), [:416–419](styles.css) | `adapt` | Alvos ≥ 44px no toque; "Contato" alcançável em 320px; cabeçalho ≤ 25% da altura com zoom de 400%. |
+| A3 ✅ | P2 | `aria-label` bilíngues via `aria-labelledby` (7 ocorrências "PT / EN"), nome do logo começando pelo texto visível, `lang="pt"` no `blockquote` dos prompts. | 4 páginas, [script.js:182–183](script.js) | `harden` | O leitor de tela em EN não lê rótulos em PT (WCAG 3.1.2 e 2.5.3). |
+| A4 ✅ | P2 | "Copiado!" anunciado por `role="status"`; falha da cópia visível, no lugar do `mailto:` silencioso. | [script.js:84–93](script.js) | `harden` | Confirmação anunciada (WCAG 4.1.3). |
+| A5 ✅ | P2 | `aria-current` na aba-mãe das subpáginas ("Trabalhos" no estudo de caso). | [trabalhos/tcc.html:53](trabalhos/tcc.html) | `polish` | Aba ativa anunciada em todas as páginas. |
+| A6 ✅ | P2 | Anel de foco cortado na linha de abas do celular (`outline-offset: -2px` ou padding vertical). | [styles.css:417](styles.css) | `polish` | Contorno completo visível em 375px. |
+| A7 ✅ | P2 | Ordem do trilho lateral igual à ordem visual em ≤960px. No estudo de caso, a demo vem antes da ficha técnica no celular. | [styles.css:387](styles.css), Trabalhos e TCC | `layout` | A ordem de Tab segue a ordem visual; no celular a demo começa antes de y≈1086. |
+| A8 ✅ | P2 | Demo JSON: empilhar a partir de ~900px e quebrar linha na saída (`pre-wrap`). | [styles.css:288](styles.css) e [:399](styles.css) | `adapt` | Nenhum texto da demo cortado em 1440, 768, 375 e 320px. |
+| A9 ✅ | P2 | Rodapé: BibTeX e snippet quebram linha (o e-mail aparece inteiro no celular), `<pre>` focável com `tabindex="0"` e `aria-label`, Hugging Face logo depois do e-mail. | rodapé das 4 páginas | `polish` | Sem rolagem lateral nos blocos de código em 1440 e 375px. |
+| A10 ✅ | P2 | Celular: alvos de 44px em `pointer: coarse` (PT/EN 36×30, contato 36×36, links-CTA de 22px); indicação de rolagem nas abas em 320px ("Contato" cortado); cabeçalho solto em telas baixas (`max-height: 500px`). | [styles.css:87–93](styles.css), [:105](styles.css), [:416–419](styles.css) | `adapt` | Alvos ≥ 44px no toque; "Contato" alcançável em 320px; cabeçalho ≤ 25% da altura com zoom de 400%. |
 | A11 | P2 | Escala tipográfica de px para rem (47 declarações). Junto do P2.3. | [styles.css](styles.css) | `typeset` | Com a fonte do navegador em 200%, todo o texto escala. |
 | A12 | P3 | Tirar a legenda "onde usei" do nome acessível dos títulos das colunas de habilidades. | [index.html:143, 153, 164](index.html) | `polish` | Títulos lidos só como "Hard skills" etc. |
 | A13 | P3 | `og:image` com URL absoluta; `perfil.jpg` em 208px e 56px (WebP com `srcset`). | `<head>` das 4 páginas, `images/` | `optimize` | Prévia do link funciona no LinkedIn/WhatsApp; a foto carrega ≤ 15 KB. |
@@ -160,6 +160,11 @@ Ordem do conteúdo, de cima para baixo:
 | A16 | P3 | Animação de entrada com estado final visível por padrão (o conteúdo não pode ficar invisível se a animação pausar). | [styles.css](styles.css) (`.js .page > *`) | `polish` | A página aparece inteira mesmo sem animação (capturas de prévia). |
 | A17 | P3 | Largura do resumo de 86ch para ~70ch. | [styles.css](styles.css) (`.intro__lede`) | `typeset` | ≤ 75 caracteres por linha em 1440px. |
 | A18 | P3 | Hierarquia h2/h3 em Trabalhos (salto de 1,24, alvo 1,25) e bordas dos botões secundários (1,49:1). | [styles.css:240, 247](styles.css), `.btn--ghost` | `typeset` / `polish` | O detector não acusa `flat-type-hierarchy`. |
+
+> **A3–A10 feitos em 2026-11-18**, com quatro agentes em paralelo (um por par de itens) e verificação no navegador. Desvios em relação à tabela:
+> - **A8:** a demo empilha por *container query* (quando a própria demo tem < 760px), não por largura de tela; assim também cobre a faixa 961–1165px, em que a página tem duas colunas e a demo ficava apertada.
+> - **A9:** os `<pre>` do rodapé ficaram sem `tabindex="0"`. Com a quebra de linha eles não rolam em nenhuma largura, e a parada de Tab seria inútil.
+> - **A7:** em Trabalhos e Como foi criado o `<aside>` veio para antes do conteúdo no HTML (no celular ele já aparecia em cima). No TCC ele ficou depois, para a demo aparecer antes da ficha técnica.
 
 #### Bloco B · Estrutura e layout (reorganiza o que existe; nenhum texto novo)
 

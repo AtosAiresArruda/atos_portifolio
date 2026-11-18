@@ -32,12 +32,13 @@
 
   <header class="topbar">
     <div class="wrap topbar__row">
-      <a class="repo" href="./" aria-label="Atos Aires Arruda: início">
+      <a class="repo" href="./">
         <img class="repo__avatar" src="images/perfil.jpg" alt="" width="28" height="28">
-        <span class="repo__path"><span class="repo__owner">AtosAiresArruda</span><span class="repo__sep">/</span><strong>atos-arruda</strong></span>
+        <span class="repo__path"><span class="repo__owner">AtosAiresArruda</span><span class="repo__sep">/</span><strong>atos-arruda</strong></span><span class="sr-only">: <span lang="pt-BR">início</span><span lang="en">home</span></span>
       </a>
       <div class="topbar__actions">
-        <div class="lang" role="group" aria-label="Idioma / Language">
+        <div class="lang" role="group" aria-labelledby="lbl-lang">
+          <span id="lbl-lang" class="sr-only"><span lang="pt-BR">Idioma</span><span lang="en">Language</span></span>
           <button type="button" data-set-lang="pt-BR" aria-pressed="true">PT</button>
           <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
         </div>
@@ -47,7 +48,8 @@
         </a>
       </div>
     </div>
-    <nav class="tabs" aria-label="Sessões / Sections">
+    <nav class="tabs" aria-labelledby="lbl-tabs">
+      <span id="lbl-tabs" class="sr-only"><span lang="pt-BR">Sessões</span><span lang="en">Sections</span></span>
       <div class="wrap tabs__row">
         <a href="./" data-key="1"><span lang="pt-BR">Início</span><span lang="en">Home</span><kbd aria-hidden="true">1</kbd></a>
         <a href="trabalhos.html" data-key="2" class="is-active" aria-current="page"><span lang="pt-BR">Trabalhos</span><span lang="en">Work</span><kbd aria-hidden="true">2</kbd></a>
@@ -59,7 +61,8 @@
 
   <main id="conteudo" class="wrap page">
     <div class="page-head">
-      <ol class="crumbs" aria-label="Caminho / Breadcrumb">
+      <span id="lbl-crumbs" class="sr-only"><span lang="pt-BR">Caminho</span><span lang="en">Breadcrumb</span></span>
+      <ol class="crumbs" aria-labelledby="lbl-crumbs">
         <li><a href="./"><span lang="pt-BR">Início</span><span lang="en">Home</span></a></li>
         <li aria-current="page"><span lang="pt-BR">Trabalhos</span><span lang="en">Work</span></li>
       </ol>
@@ -71,6 +74,25 @@
     </div>
 
     <div class="layout">
+      <aside class="rail" aria-labelledby="lbl-rail">
+        <span id="lbl-rail" class="sr-only"><span lang="pt-BR">Nesta página</span><span lang="en">On this page</span></span>
+        <nav class="rail__card" aria-labelledby="toc-h">
+          <h2 class="rail__h" id="toc-h"><span lang="pt-BR">Nesta página</span><span lang="en">On this page</span></h2>
+          <ol class="toc">
+            <li><a href="#tcc" class="is-llm"><i class="toc__dot"></i><span>TCC</span><span class="toc__y">2026</span></a></li>
+            <li><a href="#ic" class="is-research"><i class="toc__dot"></i><span><span lang="pt-BR">Iniciações Científicas</span><span lang="en">Research</span></span><span class="toc__y">2025</span></a>
+              <ol class="toc__sub">
+                <li><a href="#stitching"><i></i><span>Stitching</span></a></li>
+                <li><a href="#filtros"><i></i><span><span lang="pt-BR">Filtros</span><span lang="en">Filters</span></span></a></li>
+                <li><a href="#hla"><i></i><span>HLA / IoT</span></a></li>
+              </ol>
+            </li>
+            <li><a href="#comando" class="is-lead"><i class="toc__dot"></i><span>Projeto Comando</span><span class="toc__y">2025</span></a></li>
+            <li><a href="#knockup" class="is-lead"><i class="toc__dot"></i><span>KnockUp</span><span class="toc__y">2025</span></a></li>
+            <li><a href="#zup"><i class="toc__dot"></i><span>Zup Innovation</span><span class="toc__y">2021</span></a></li>
+          </ol>
+        </nav>
+      </aside>
       <div class="main">
 
         <section class="group" id="tcc" aria-labelledby="g-tcc">
@@ -207,25 +229,6 @@
           </article>
         </section>
       </div>
-
-      <aside class="rail" aria-label="Nesta página / On this page">
-        <nav class="rail__card" aria-labelledby="toc-h">
-          <h2 class="rail__h" id="toc-h"><span lang="pt-BR">Nesta página</span><span lang="en">On this page</span></h2>
-          <ol class="toc">
-            <li><a href="#tcc" class="is-llm"><i class="toc__dot"></i><span>TCC</span><span class="toc__y">2026</span></a></li>
-            <li><a href="#ic" class="is-research"><i class="toc__dot"></i><span><span lang="pt-BR">Iniciações Científicas</span><span lang="en">Research</span></span><span class="toc__y">2025</span></a>
-              <ol class="toc__sub">
-                <li><a href="#stitching"><i></i><span>Stitching</span></a></li>
-                <li><a href="#filtros"><i></i><span><span lang="pt-BR">Filtros</span><span lang="en">Filters</span></span></a></li>
-                <li><a href="#hla"><i></i><span>HLA / IoT</span></a></li>
-              </ol>
-            </li>
-            <li><a href="#comando" class="is-lead"><i class="toc__dot"></i><span>Projeto Comando</span><span class="toc__y">2025</span></a></li>
-            <li><a href="#knockup" class="is-lead"><i class="toc__dot"></i><span>KnockUp</span><span class="toc__y">2025</span></a></li>
-            <li><a href="#zup"><i class="toc__dot"></i><span>Zup Innovation</span><span class="toc__y">2021</span></a></li>
-          </ol>
-        </nav>
-      </aside>
     </div>
   </main>
 
@@ -236,7 +239,7 @@
 <pre class="code code--py"><code><span class="k">from</span> portfolio <span class="k">import</span> Candidate
 
 atos = Candidate.from_pretrained(<span class="s">"AtosAiresArruda/atos-arruda"</span>)
-atos.contact(email=<span class="s">"arruda.atos@gmail.com"</span>)</code></pre>
+atos.contact(email=<wbr><span class="s">"arruda.atos@gmail.com"</span>)</code></pre>
         <div class="contact">
           <a class="btn btn--primary" href="mailto:arruda.atos@gmail.com">
             <svg class="ico" aria-hidden="true"><use href="#i-mail"/></svg>
@@ -246,16 +249,17 @@ atos.contact(email=<span class="s">"arruda.atos@gmail.com"</span>)</code></pre>
             <svg class="ico" aria-hidden="true"><use href="#i-copy"/></svg>
             <span class="copy-label"><span lang="pt-BR">Copiar e-mail</span><span lang="en">Copy e-mail</span></span>
           </button>
+          <a class="btn btn--ghost" href="https://huggingface.co/AtosArruda" target="_blank" rel="noopener">
+            <svg class="ico" aria-hidden="true"><use href="#i-box"/></svg> Hugging Face
+          </a>
           <a class="btn btn--ghost" href="https://linkedin.com/in/atos-arruda-6b903422a" target="_blank" rel="noopener">
             <svg class="ico" aria-hidden="true"><use href="#i-linkedin"/></svg> LinkedIn
           </a>
           <a class="btn btn--ghost" href="https://github.com/AtosAiresArruda" target="_blank" rel="noopener">
             <svg class="ico" aria-hidden="true"><use href="#i-github"/></svg> GitHub
           </a>
-          <a class="btn btn--ghost" href="https://huggingface.co/AtosArruda" target="_blank" rel="noopener">
-            <svg class="ico" aria-hidden="true"><use href="#i-box"/></svg> Hugging Face
-          </a>
         </div>
+        <div id="copy-status" class="sr-only" role="status"></div>
       </div>
       <div>
         <h2 class="footer__h"><span lang="pt-BR">Citação</span><span lang="en">Citation</span></h2>

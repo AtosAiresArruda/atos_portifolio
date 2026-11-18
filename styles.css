@@ -18,6 +18,8 @@
   --prod-bg: #e3f6e6;    --prod-fg: #17682a;
 
   --code-bg: #f1f3f7;
+  /* error text/border (copy failure): 6.6:1 on --surface, 6.1:1 on --ground */
+  --danger: #b42318;
   /* dark code panel (TCC demo output): every pair ≥ 8.9:1 on --code-dark-bg */
   --code-dark-bg: var(--ink);
   --code-dark-fg: #dfe3ff;
@@ -60,6 +62,10 @@ dd code { font-size: .875em; background: var(--code-bg); padding: 2px 6px; borde
 html[lang="pt-BR"] body [lang="en"],
 html[lang="en"] body [lang="pt-BR"] { display: none !important; }
 
+/* visually hidden but read aloud; target of aria-labelledby for bilingual names:
+   the inactive-language child is display:none, so only the active language enters the name */
+.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+
 .skip { position: absolute; left: 12px; top: -48px; z-index: 50; background: var(--ink); color: #fff; padding: 8px 12px; border-radius: 8px; }
 .skip:focus { top: 12px; }
 /* footer receives focus from shortcut 4 only to carry the Tab order; no ring around the whole block */
@@ -87,6 +93,7 @@ html[lang="en"] body [lang="pt-BR"] { display: none !important; }
 .btn--ghost:hover { border-color: var(--ink-3); background: var(--ground); }
 .btn--sm { height: 30px; padding: 0 10px; font-size: 13px; }
 .btn.is-copied { border-color: var(--prod-fg); color: var(--prod-fg); }
+.btn.is-failed { border-color: var(--danger); color: var(--danger); }
 
 .link { display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; font-size: 14px; font-weight: 500; text-decoration: none; }
 .link:hover { text-decoration: underline; }
@@ -171,6 +178,11 @@ kbd {
 /* ---------- blocks ---------- */
 .layout { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: var(--gap); align-items: start; }
 .main { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--gap); min-width: 0; }
+/* fixed cells: the rail stays on the right whatever its place in the HTML.
+   The HTML order is the phone order (index first on Trabalhos and Como foi criado, spec last on the case study),
+   so Tab and reading order match what is on screen at every width. */
+.layout > .main { grid-column: 1; grid-row: 1; }
+.layout > .rail { grid-column: 2; grid-row: 1; }
 
 .block {
   background: var(--surface); border: 1px solid var(--rule); border-radius: var(--r);
@@ -291,9 +303,10 @@ kbd {
 .is-lead { --c: var(--lead-fg); }
 
 /* ---------- case study ---------- */
-.demo { margin: 22px 0 0; }
+.demo { margin: 22px 0 0; container: demo / inline-size; }
+/* the JSON column gets the larger share: its longest line ("description") needs ~364px with padding */
 .demo__stage {
-  display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1.05fr); align-items: center; gap: 18px;
+  display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1.25fr); align-items: center; gap: 18px;
   padding: 24px; border-radius: 10px;
   background:
     radial-gradient(circle at 1px 1px, color-mix(in srgb, var(--ink) 9%, transparent) 1px, transparent 0) 0 0 / 16px 16px,
@@ -302,6 +315,8 @@ kbd {
 }
 .demo__arrow { font: 400 22px/1 var(--mono); color: var(--ink-3); }
 .code.demo__out { margin: 0; min-height: 214px; background: var(--code-dark-bg); color: var(--code-dark-fg); border-color: var(--code-dark-bg); font-size: 13px; }
+/* wrap instead of scrolling sideways; pre-wrap keeps the two-space indent the typing animation writes */
+.demo__out { white-space: pre-wrap; overflow-wrap: anywhere; }
 /* .code.demo__out (two classes) outranks the light-panel .code .k/.s rules further down */
 .code.demo__out .k { color: var(--code-dark-k); }
 .code.demo__out .s { color: var(--code-dark-s); }
@@ -332,6 +347,14 @@ kbd {
 .scan__lines i:nth-child(3) { width: 55%; }
 .scan__total { display: flex; justify-content: space-between; padding-top: 8px; border-top: 1px solid #c9ccd3; font-weight: 500; }
 .scan__sign { margin: 18px 0 0 auto; width: 55%; padding-top: 3px; border-top: 1px solid #9aa0ab; text-align: center; font-size: 10px; color: #6a707c; font-style: italic; }
+/* stack document → arrow → JSON when three columns no longer fit side by side:
+   below 760px of demo width the JSON column drops under ~364px. Measured on the demo itself, so it covers
+   the single-column page (viewport ≤ ~845px) and the narrow two-column range (961–1165px) alike. */
+@container demo (width < 760px) {
+  .demo__stage { grid-template-columns: minmax(0, 1fr); }
+  .demo__arrow { transform: rotate(90deg); justify-self: center; }
+  .scan__sheet { max-width: 340px; margin-inline: auto; }
+}
 
 [data-field] { position: relative; border-radius: 3px; transition: background-color .3s var(--ease), box-shadow .3s var(--ease); }
 [data-field].is-hit { background: color-mix(in srgb, var(--accent) 10%, transparent); box-shadow: 0 0 0 1.5px var(--accent); }
@@ -389,6 +412,11 @@ kbd {
 .footer__h { font-size: 1.125rem; font-weight: 650; letter-spacing: -0.01em; margin-bottom: 14px; }
 .footer__grid > div:last-child .footer__h { font-size: 13px; font-weight: 600; padding-top: 6px; }
 .contact { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+/* footer code wraps instead of scrolling sideways (snippet and BibTeX); a <wbr> before the e-mail
+   keeps the address on one line, and overflow-wrap only splits a token when nothing else fits */
+.footer .code { white-space: pre-wrap; overflow-wrap: anywhere; }
+/* the e-mail button may shrink to the row and wrap instead of overflowing on narrow phones */
+.footer .contact .btn { max-width: 100%; white-space: normal; overflow-wrap: anywhere; }
 .footer__note { margin-top: 20px; font-size: 13px; color: var(--ink-3); }
 
 /* ---------- reveal (one orchestrated entrance per page) ---------- */
@@ -407,7 +435,8 @@ kbd {
 }
 @media (max-width: 960px) {
   .layout { grid-template-columns: minmax(0, 1fr); }
-  .rail { position: static; order: -1; }
+  .layout > .main, .layout > .rail { grid-column: auto; grid-row: auto; }
+  .rail { position: static; }
   .toc__sub { display: none; }
   .cards { grid-template-columns: minmax(0, 1fr); }
   .footer__grid { grid-template-columns: minmax(0, 1fr); }
@@ -419,9 +448,7 @@ kbd {
   .facts > div { grid-template-columns: minmax(0, 1fr); gap: 2px; }
   .group__head { flex-direction: column; }
   .group__when { padding-top: 0; }
-  .demo__stage { grid-template-columns: minmax(0, 1fr); padding: 16px; }
-  .demo__arrow { transform: rotate(90deg); justify-self: center; }
-  .scan__sheet { max-width: 340px; margin-inline: auto; }
+  .demo__stage { padding: 16px; }
   .step { grid-template-columns: minmax(0, 1fr); gap: 2px; }
 }
 @media (max-width: 560px) {
@@ -441,5 +468,48 @@ kbd {
   .tabs__row::-webkit-scrollbar { display: none; }
   .tabs a { padding-inline: 10px; }
   .tabs a::after { bottom: 0; }
+  /* the scrolling row clips anything drawn outside it: keep the focus ring inside the tab */
+  .tabs a:focus-visible { outline-offset: -2px; }
+  /* when tabs are hidden past an edge (script.js sets the classes), fade that edge;
+     scroll-padding keeps a focused tab clear of the fade */
+  .tabs__row { scroll-padding-inline: 32px; }
+  .tabs__row.has-more-start { --fade-start: 32px; }
+  .tabs__row.has-more-end { --fade-end: 32px; }
+  .tabs__row.has-more-start, .tabs__row.has-more-end {
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 var(--fade-start, 0px), #000 calc(100% - var(--fade-end, 0px)), transparent);
+    mask-image: linear-gradient(to right, transparent, #000 var(--fade-start, 0px), #000 calc(100% - var(--fade-end, 0px)), transparent);
+  }
+}
+/* below 360px the four PT tabs need ~342px at 10px padding; at 7px they fit in 320 */
+@media (max-width: 359px) {
+  .tabs__row { padding-inline: 2px; }
+  .tabs a { padding-inline: 7px; }
+  .tabs a::after { left: 7px; right: 7px; }
 }
 @media (hover: none) { .tabs kbd { display: none; } }
+
+/* touch screens: targets of at least 44px. Buttons grow where there is room; in the
+   top bar and the demo caption the hit area grows instead, so the bar keeps its height */
+@media (pointer: coarse) {
+  .btn { min-height: 44px; }
+  .topbar .btn, .btn--sm { min-height: auto; position: relative; }
+  .topbar .btn::before { content: ""; position: absolute; inset: -4px; }
+  .btn--sm::before { content: ""; position: absolute; inset: -7px 0; }
+  .lang button { position: relative; }
+  .lang button::before { content: ""; position: absolute; inset: -7px 0; }
+  .lang button:first-child::before { left: -8px; }
+  .lang button:last-child::before { right: -8px; }
+  .link, .edu__logo { position: relative; }
+  .link::before { content: ""; position: absolute; inset: -11px -4px; }
+  .edu__logo::before { content: ""; position: absolute; inset: -12px -4px; }
+  /* when the pager wraps, its two links' hit areas must not overlap */
+  .pager { row-gap: 24px; }
+}
+
+/* short screens (landscape phones, 400% zoom = 320×256): the bar scrolls away
+   instead of covering ~40% of the view */
+@media (max-height: 500px) {
+  html { scroll-padding-top: 16px; }
+  .topbar { position: static; }
+  .rail { top: 24px; }
+}
