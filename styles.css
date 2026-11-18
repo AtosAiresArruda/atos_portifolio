@@ -175,6 +175,11 @@ kbd {
 /* ---------- blocks ---------- */
 .layout { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: var(--gap); align-items: start; }
 .main { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--gap); min-width: 0; }
+/* fixed cells: the rail stays on the right whatever its place in the HTML.
+   The HTML order is the phone order (index first on Trabalhos and Como foi criado, spec last on the case study),
+   so Tab and reading order match what is on screen at every width. */
+.layout > .main { grid-column: 1; grid-row: 1; }
+.layout > .rail { grid-column: 2; grid-row: 1; }
 
 .block {
   background: var(--surface); border: 1px solid var(--rule); border-radius: var(--r);
@@ -295,9 +300,10 @@ kbd {
 .is-lead { --c: var(--lead-fg); }
 
 /* ---------- case study ---------- */
-.demo { margin: 22px 0 0; }
+.demo { margin: 22px 0 0; container: demo / inline-size; }
+/* the JSON column gets the larger share: its longest line ("description") needs ~364px with padding */
 .demo__stage {
-  display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1.05fr); align-items: center; gap: 18px;
+  display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1.25fr); align-items: center; gap: 18px;
   padding: 24px; border-radius: 10px;
   background:
     radial-gradient(circle at 1px 1px, color-mix(in srgb, var(--ink) 9%, transparent) 1px, transparent 0) 0 0 / 16px 16px,
@@ -306,6 +312,8 @@ kbd {
 }
 .demo__arrow { font: 400 22px/1 var(--mono); color: var(--ink-3); }
 .code.demo__out { margin: 0; min-height: 214px; background: var(--code-dark-bg); color: var(--code-dark-fg); border-color: var(--code-dark-bg); font-size: 13px; }
+/* wrap instead of scrolling sideways; pre-wrap keeps the two-space indent the typing animation writes */
+.demo__out { white-space: pre-wrap; overflow-wrap: anywhere; }
 /* .code.demo__out (two classes) outranks the light-panel .code .k/.s rules further down */
 .code.demo__out .k { color: var(--code-dark-k); }
 .code.demo__out .s { color: var(--code-dark-s); }
@@ -336,6 +344,14 @@ kbd {
 .scan__lines i:nth-child(3) { width: 55%; }
 .scan__total { display: flex; justify-content: space-between; padding-top: 8px; border-top: 1px solid #c9ccd3; font-weight: 500; }
 .scan__sign { margin: 18px 0 0 auto; width: 55%; padding-top: 3px; border-top: 1px solid #9aa0ab; text-align: center; font-size: 10px; color: #6a707c; font-style: italic; }
+/* stack document → arrow → JSON when three columns no longer fit side by side:
+   below 760px of demo width the JSON column drops under ~364px. Measured on the demo itself, so it covers
+   the single-column page (viewport ≤ ~845px) and the narrow two-column range (961–1165px) alike. */
+@container demo (width < 760px) {
+  .demo__stage { grid-template-columns: minmax(0, 1fr); }
+  .demo__arrow { transform: rotate(90deg); justify-self: center; }
+  .scan__sheet { max-width: 340px; margin-inline: auto; }
+}
 
 [data-field] { position: relative; border-radius: 3px; transition: background-color .3s var(--ease), box-shadow .3s var(--ease); }
 [data-field].is-hit { background: color-mix(in srgb, var(--accent) 10%, transparent); box-shadow: 0 0 0 1.5px var(--accent); }
@@ -411,7 +427,8 @@ kbd {
 }
 @media (max-width: 960px) {
   .layout { grid-template-columns: minmax(0, 1fr); }
-  .rail { position: static; order: -1; }
+  .layout > .main, .layout > .rail { grid-column: auto; grid-row: auto; }
+  .rail { position: static; }
   .toc__sub { display: none; }
   .cards { grid-template-columns: minmax(0, 1fr); }
   .footer__grid { grid-template-columns: minmax(0, 1fr); }
@@ -423,9 +440,7 @@ kbd {
   .facts > div { grid-template-columns: minmax(0, 1fr); gap: 2px; }
   .group__head { flex-direction: column; }
   .group__when { padding-top: 0; }
-  .demo__stage { grid-template-columns: minmax(0, 1fr); padding: 16px; }
-  .demo__arrow { transform: rotate(90deg); justify-self: center; }
-  .scan__sheet { max-width: 340px; margin-inline: auto; }
+  .demo__stage { padding: 16px; }
   .step { grid-template-columns: minmax(0, 1fr); gap: 2px; }
 }
 @media (max-width: 560px) {
