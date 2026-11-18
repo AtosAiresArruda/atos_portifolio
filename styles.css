@@ -351,11 +351,25 @@ kbd {
 .prompt-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; }
 .main > .section-head { margin: 16px 0 -8px; }
 .prompt__num { font: 500 15px/1.5 var(--mono); color: var(--accent-ink); font-variant-numeric: tabular-nums; }
-.prompt__text {
-  margin: 14px 0 0; padding: 14px 18px;
-  background: var(--code-bg); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0;
-  color: var(--ink); white-space: pre-wrap; overflow-wrap: anywhere;
+.prompt__more { margin-top: 12px; }
+.prompt__more summary { display: block; cursor: pointer; list-style: none; border-radius: 8px; }
+.prompt__more summary::-webkit-details-marker { display: none; }
+.prompt__preview {
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 6; line-clamp: 6; overflow: hidden;
+  /* vertical space as a border: overflow clips at the padding box, so a 7th line would peek through padding */
+  padding: 0 16px; border: 14px solid var(--code-bg); border-width: 14px 0; background: var(--code-bg); border-radius: 8px;
+  font: 400 13.5px/1.65 var(--mono); color: var(--ink-2); white-space: pre-wrap; overflow-wrap: anywhere;
 }
+.prompt__toggle { display: inline-flex; align-items: center; min-height: 32px; margin-top: 6px; color: var(--accent-ink); font-size: 14px; font-weight: 500; }
+.prompt__more summary:hover .prompt__toggle { text-decoration: underline; text-underline-offset: 3px; }
+.prompt__more:not([open]) .prompt__hide,
+.prompt__more[open] .prompt__show,
+.prompt__more[open] .prompt__preview { display: none; }
+.prompt__text {
+  margin: 0; padding: 14px 16px; background: var(--code-bg); border-radius: 8px;
+  font: 400 13.5px/1.65 var(--mono); color: var(--ink); white-space: pre-wrap; overflow-wrap: anywhere;
+}
+.prompt__muted { color: var(--ink-3); font-style: italic; }
 .prompt .facts { margin-top: 10px; }
 .log-empty { margin-top: 8px; color: var(--ink-3); font-size: 15px; }
 

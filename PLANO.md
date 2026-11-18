@@ -168,7 +168,7 @@ Ordem do conteúdo, de cima para baixo:
   - **Protótipo:** [docs/prototipos/inicio-primeira-tela.md](docs/prototipos/inicio-primeira-tela.md).
   - **Comando:** `/impeccable layout`.
   - **Pronto quando:** em 1366×768, o card ≈10× e o botão do TCC aparecem na primeira tela.
-- [ ] **B2 · Card de prompt com prévia de 6 linhas e "Mostrar prompt completo".**
+- [x] **B2 ✅ · Card de prompt com prévia de 6 linhas e "Mostrar prompt completo".**
   - **O quê:** o prompt aparece em fonte mono; Resultado · Skills · Commit abaixo dele; índice dos prompts no trilho lateral, com âncoras `#prompt-N`.
   - **Protótipo:** [docs/prototipos/card-de-prompt.md](docs/prototipos/card-de-prompt.md).
   - **Onde:** `script.js` e `styles.css`.
