@@ -32,12 +32,13 @@
 
   <header class="topbar">
     <div class="wrap topbar__row">
-      <a class="repo" href="./" aria-label="Atos Aires Arruda: início">
+      <a class="repo" href="./">
         <img class="repo__avatar" src="images/perfil.jpg" alt="" width="28" height="28">
-        <span class="repo__path"><span class="repo__owner">AtosAiresArruda</span><span class="repo__sep">/</span><strong>atos-arruda</strong></span>
+        <span class="repo__path"><span class="repo__owner">AtosAiresArruda</span><span class="repo__sep">/</span><strong>atos-arruda</strong></span><span class="sr-only">: <span lang="pt-BR">início</span><span lang="en">home</span></span>
       </a>
       <div class="topbar__actions">
-        <div class="lang" role="group" aria-label="Idioma / Language">
+        <div class="lang" role="group" aria-labelledby="lbl-lang">
+          <span id="lbl-lang" class="sr-only"><span lang="pt-BR">Idioma</span><span lang="en">Language</span></span>
           <button type="button" data-set-lang="pt-BR" aria-pressed="true">PT</button>
           <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
         </div>
@@ -47,7 +48,8 @@
         </a>
       </div>
     </div>
-    <nav class="tabs" aria-label="Sessões / Sections">
+    <nav class="tabs" aria-labelledby="lbl-tabs">
+      <span id="lbl-tabs" class="sr-only"><span lang="pt-BR">Sessões</span><span lang="en">Sections</span></span>
       <div class="wrap tabs__row">
         <a href="./" data-key="1"><span lang="pt-BR">Início</span><span lang="en">Home</span><kbd aria-hidden="true">1</kbd></a>
         <a href="trabalhos.html" data-key="2" class="is-active" aria-current="page"><span lang="pt-BR">Trabalhos</span><span lang="en">Work</span><kbd aria-hidden="true">2</kbd></a>
@@ -59,7 +61,8 @@
 
   <main id="conteudo" class="wrap page">
     <div class="page-head">
-      <ol class="crumbs" aria-label="Caminho / Breadcrumb">
+      <span id="lbl-crumbs" class="sr-only"><span lang="pt-BR">Caminho</span><span lang="en">Breadcrumb</span></span>
+      <ol class="crumbs" aria-labelledby="lbl-crumbs">
         <li><a href="./"><span lang="pt-BR">Início</span><span lang="en">Home</span></a></li>
         <li aria-current="page"><span lang="pt-BR">Trabalhos</span><span lang="en">Work</span></li>
       </ol>
