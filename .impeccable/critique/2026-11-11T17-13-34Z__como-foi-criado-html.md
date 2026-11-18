@@ -1,0 +1,264 @@
+---
+target: aba Como foi criado
+total_score: 22
+max_score: 40
+na_heuristics: 
+p0_count: 0
+p1_count: 2
+target_identity: "file:/home/atos/Documentos/dev/web_atos/.claude/worktrees/inicio-tab-impeccable-critique-0d403a/como-foi-criado.html"
+target_fingerprint: "sha256:a39774a89914b29635835a90f342020e86426865c90c59063eb91ff34b3a705f"
+target_path: /home/atos/Documentos/dev/web_atos/.claude/worktrees/inicio-tab-impeccable-critique-0d403a/como-foi-criado.html
+timestamp: 2026-11-11T17-13-34Z
+slug: como-foi-criado-html
+---
+# Relatório P2.2 · `/impeccable critique` de todas as abas
+
+> Data: 2026-11-11 · Versão revisada: `main` em `5980c4f` (a mesma que está no ar).
+> Método: **dual-agent**. Duas avaliações isoladas: (A) revisão de design por um agente que não viu o detector; (B) detector automático do impeccable + overlay no navegador. Abas revisadas: Início, Trabalhos, Estudo de caso do TCC, Como foi criado e o rodapé (Contato), em 1440×900, 1366×768 e 375×812, em PT e EN.
+>
+> Este documento só registra o que a skill encontrou. Nada foi alterado no site.
+
+## 1. Nota de saúde do design (heurísticas de Nielsen)
+
+**Site inteiro: 22/32 (69%) · Aceitável**. Fica 1 ponto abaixo de "Bom". As heurísticas 7 e 10 são `n/a` porque um portfólio é uma superfície de "Experience".
+
+| # | Heurística | Nota | Principal achado |
+|---|---|---|---|
+| 1 | Visibilidade do estado | 3 | Aba ativa, índice com scrollspy, "Copiado!" e PT/EN dão retorno. Lacunas: `aria-current` fica em "Início" quando a aba Contato acende ([script.js:37](../script.js)); a aba "Trabalhos" no estudo de caso não tem `aria-current`; o atalho `4` não move o foco. |
+| 2 | Correspondência com o mundo real | 3 | Trabalhos usa linguagem simples. O bloco do TCC na Início mostra jargão sem explicação (`gemma-4-E2B-it`, QLoRA, "LoRA + AdamW-Fusion"). O chip "Mercado" não diz "em produção". "Produzindo" é ambíguo. |
+| 3 | Controle e liberdade | 3 | Breadcrumbs, paginação, skip link, idioma reversível. Páginas muito longas no celular (Trabalhos 5.336px, Como foi criado 11.457px) não têm "voltar ao topo" nem seções recolhíveis. |
+| 4 | Consistência e padrões | 2 | O status do TCC muda de página para página: "Produzindo" na Início ([index.html:83](../index.html)), "Em treinamento" em Trabalhos ([trabalhos.html:85](../trabalhos.html)) e no estudo de caso ([trabalhos/tcc.html:69](../trabalhos/tcc.html)). O chip violeta (`chip--live`) marca uma categoria na Início e um status em Trabalhos. "≈10× mais rápido" vs "caiu para 1/10". O contato aparece duas vezes no topo (aba e botão). |
+| 5 | Prevenção de erros | 3 | Quase não há ações arriscadas. Links externos abrem em nova aba sem avisar. |
+| 6 | Reconhecer em vez de lembrar | 3 | Abas com rótulo e tecla, "onde usei" com link, índice. O registro de prompts não tem índice. |
+| 7 | Flexibilidade e eficiência | n/a | Portfólio (Experience). |
+| 8 | Estética e minimalismo | 3 | Início, Trabalhos e TCC são calmos e bem hierarquizados. "Como foi criado" é uma parede de texto cru. Os blocos de código do rodapé se repetem em todas as páginas e transbordam para os lados. |
+| 9 | Recuperação de erros | 2 | Não há página 404 própria. Se a cópia do e-mail falha, a página abre o `mailto:` sem avisar ([script.js:91](../script.js)). |
+| 10 | Ajuda e documentação | n/a | Portfólio (Experience). |
+
+**Por aba** (ordem das notas: H1…H10):
+
+| Aba | Notas | Total |
+|---|---|---|
+| Início (`index.html`) | 3, 2, 3, 2, 3, 3, n/a, 3, 3, n/a | **22/32 (69%) · Aceitável** |
+| Trabalhos (`trabalhos.html`) | 3, 3, 3, 2, 3, 3, n/a, 3, 3, n/a | **23/32 (72%) · Bom** |
+| Estudo de caso do TCC (`trabalhos/tcc.html`) | 3, 2, 3, 2, 3, 3, n/a, 3, 3, n/a | **22/32 (69%) · Aceitável** |
+| Como foi criado (`como-foi-criado.html`)\* | 3, 2, 2, 2, 3, 2, 1, 2, 3, 2 | **22/40 (55%) · Aceitável** |
+
+\* "Como foi criado" foi avaliada como página de leitura (modo Read), então as heurísticas 7 e 10 contam.
+
+## 2. Veredito de especificidade do design
+
+**Avaliação do revisor (A):** o site é **em parte autoral, mas na maior parte intercambiável com qualquer portfólio de desenvolvedor**.
+- **Bem construído, mas genérico:**
+  - a base visual: Geist / Geist Mono, azul-tinta sobre branco frio, filetes finos, chips arredondados;
+  - o caminho de repositório no topo (`AtosAiresArruda / atos-arruda`);
+  - as piadas do rodapé (`Candidate.from_pretrained(...)` e a citação em BibTeX).
+
+  Quase tudo isso serviria a qualquer estudante de computação trocando só o nome.
+- **Conceito "model card":** sobrevive só como decoração, no topo e no rodapé.
+- **Por aba:**
+  - **Início:** um layout de currículo comum. A coluna "onde usei" é a única ideia própria.
+  - **Trabalhos:** a estrutura Problema / O que fiz / Resultado e o índice em forma de linha do tempo são sólidos, mas genéricos.
+  - **Estudo de caso do TCC:** a página mais autoral e a única que faz jus ao conceito. A demo documento → JSON tem legenda honesta, botão de repetir e respeita movimento reduzido.
+  - **Como foi criado:** a ideia é distinta (transparência total sobre os prompts), mas é apresentada como um despejo de texto cru.
+- **O brief de design está desatualizado** (`.impeccable/surfaces/index-html.md`). Ele promete, na primeira tela da Início, um trilho lateral de metadados, uma árvore do modelo, tags coloridas por área e a demo documento → JSON. Nada disso existe hoje, e o brief ainda descreve um site de página única.
+
+**Varredura determinística (B):** o `impeccable detect` saiu com código 2 e **9 achados, todos da categoria "slop"**.
+
+| Regra | Qtde | Onde | Leitura |
+|---|---|---|---|
+| `overused-font` (Geist) | 4 | uma por página. A fonte é carregada na linha 16 de cada HTML e definida em [styles.css:21](../styles.css). | **Sinal real.** Geist é a fonte principal em 65–88% do texto. É uma causa só, repetida porque as 4 páginas compartilham a folha de estilo. Já é o item `/impeccable typeset` do P2.3. |
+| `overused-font` (Geist Mono) | 4 | [styles.css:22](../styles.css) e [:48](../styles.css) (`code, kbd, pre`) | **Falso positivo provável.** A fonte monoespaçada só é usada em código, o que é intencional. O detector rodando na página não a aponta. |
+| `flat-type-hierarchy` | 1 | só em Trabalhos: h3 17px ([styles.css:247](../styles.css)) vs h2 21px ([styles.css:240](../styles.css)), salto de 1,24 para um alvo de 1,25 | **No limite.** É só um aviso, o peso da fonte já separa título de corpo, e o detector na página não o repete. |
+
+- **Overlay no navegador (B):** a injeção funcionou nas 4 páginas, em desktop e em 375px. Cada página só acusou `overused-font` (Geist).
+- **Rolagem lateral:** nenhuma página tem rolagem horizontal da página inteira em 375px.
+- **O que o detector não pega:** tudo o que pesa nos problemas prioritários abaixo (ordem do conteúdo, inconsistência de status, acessibilidade dos atalhos, a página de prompts).
+
+## 3. Impressão geral
+
+O acabamento é cuidadoso e as bases (contraste, foco, idioma, ausência de rolagem lateral) são sólidas. O ponto fraco é a mensagem: a primeira frase do site fala do que o Atos quer, e não do que ele já fez. A prova mais forte, o código em produção ≈10× mais rápido, só aparece depois de rolar e sem a palavra "produção". A maior oportunidade é a Início provar em segundos o que o PRODUCT.md define como sucesso.
+
+## 4. O que funciona
+
+1. **Habilidades ligadas a provas.** A coluna "onde usei" ([index.html:141–173](../index.html)) torna literal o princípio "provar, não afirmar".
+2. **A interação-assinatura é honesta e específica.** A demo documento → JSON do estudo de caso tem legenda "Exemplo ilustrativo com dados sintéticos", botão de repetir e mostra o resultado pronto quando o movimento reduzido está ativo ([script.js:237](../script.js)).
+3. **Fundamentos sólidos.**
+   - Todos os pares de texto medidos têm contraste ≥ 5,4:1.
+   - O anel de foco de 2px aparece em toda parada de Tab, e a ordem de tabulação é lógica.
+   - Há skip link, e a escolha de idioma persiste e troca também o título da aba.
+   - Nenhuma página rola para os lados em 375px.
+   - As âncoras param no lugar certo, abaixo do cabeçalho fixo.
+
+## 5. Problemas prioritários
+
+### [P1] Início: a prova de produção fica escondida e a primeira frase é uma aspiração
+- **O quê:**
+  - Em 1366×768 o card "≈10× mais rápido" começa em y=730; só o chip dele aparece na primeira tela. No celular começa em y=1242.
+  - A palavra "produção" não aparece na Início: o card diz "Mercado" e a linha de baixo diz "Iniciação Científica".
+  - O resumo ([index.html:64](../index.html)) fala do que o Atos quer ("a tecnologia que irá dominar o mercado"). Isso contraria a voz definida no PRODUCT.md ("direta, técnica, sem hype").
+- **Por que importa:** o PRODUCT.md define sucesso como "entender em segundos que o Atos já treina modelos e entrega código de visão em produção". Hoje isso exige rolar e deduzir.
+- **Correção sugerida pela skill:**
+  - um resumo que comece pela prova (fine-tuning do gemma + algoritmos em produção ≈10× mais rápidos);
+  - o chip "Mercado" passar a dizer "Em produção";
+  - o resultado do stitching subir para perto da intro.
+- **Observação:** o texto atual do resumo e o chip "Mercado" foram pedidos por você nas últimas atualizações da Início e das tags. A skill aponta o conflito com o PRODUCT.md; a decisão é sua.
+- **Comandos:** `/impeccable clarify`, depois `/impeccable layout`.
+
+### [P1] Todas as abas: atalhos de uma tecla falham o WCAG 2.1.4, e o atalho `4` deixa o foco para trás
+- **O quê:**
+  - As teclas `1`–`4` funcionam sozinhas em todas as páginas ([script.js:43–57](../script.js)) e não podem ser desligadas nem remapeadas.
+  - O `4` rola até o rodapé, mas o foco fica onde estava: o próximo Tab volta para o meio da página.
+- **Por que importa:** o 2.1.4 é nível A, e a meta do PRODUCT.md é AA. Quem usa entrada por voz dispara essas teclas sem querer.
+- **Correção:**
+  - exigir um modificador (Alt+1–4) ou oferecer um jeito de desligar;
+  - ao ir para `#contato`, mover o foco para o rodapé;
+  - mover `aria-current` junto com a aba acesa.
+- **Comando:** `/impeccable harden`.
+
+### [P1] Como foi criado: paredes de prompt cru, sem limite
+- **O quê:**
+  - Com só 3 prompts, a página já tem 6.252px no desktop e 11.457px no celular.
+  - O Markdown aparece literal ("## Contexto", "**Início**") na fonte do corpo ([script.js:183](../script.js), [styles.css:345](../styles.css)).
+  - Os prompts #2 e #3 aparecem sem "Resultado" e com "Commit: pendente".
+- **Por que importa:** é uma aba principal. Quem revisa desiste na primeira tela e sai com a impressão de algo inacabado. A página vai crescer a cada prompt registrado.
+- **Correção:**
+  - abrir cada card pelo resultado e pelo commit;
+  - recolher o prompt num `<details>` com as primeiras ~6 linhas e um "Mostrar prompt completo";
+  - criar um índice de prompts no trilho lateral;
+  - mostrar o prompt em fonte mono de ~14px, ou interpretar os `##`;
+  - preencher o resultado dos prompts #2 e #3.
+- **Comandos:** `/impeccable distill`, depois `/impeccable layout`.
+
+### [P2] Início, Trabalhos e TCC: status e textos se contradizem
+- **O quê:**
+  - O status do TCC diverge: "Produzindo" na Início, "Em treinamento" em Trabalhos e no estudo de caso.
+  - O título na Início ("Fine-Tuning de modelos para Atividade OCR → JSON", [index.html:80](../index.html)) não bate com o registrado no prompt #3 ("Fine-tuning de modelos para a atividade de OCR → JSON").
+  - O chip violeta faz dois papéis: categoria em um lugar, status em outro.
+- **Por que importa:** recrutadores veem contradição; entrevistadores veem descuido.
+- **Correção:** um só vocabulário de status em todas as páginas, o título igual ao do prompt #3 e um papel por cor de chip.
+- **Comando:** `/impeccable polish`.
+
+### [P2] TCC e rodapé no celular: a demo é empurrada para baixo e cortada
+- **O quê:**
+  - No celular, `.rail { order:-1 }` ([styles.css:387](../styles.css)) põe a "Ficha técnica" (405px) acima da demo, que só começa em y=1086.
+  - A saída JSON fica cortada ("Papelaria Exemplo L…"), e mesmo em 1440 transborda 6px e mostra uma barra de rolagem.
+  - No rodapé, o bloco de código corta o e-mail em 375px.
+- **Correção:**
+  - no estudo de caso, manter a ficha técnica depois da demo no celular;
+  - quebrar linha na saída JSON abaixo de 720px;
+  - deixar os blocos de código do rodapé quebrarem linha.
+- **Comando:** `/impeccable adapt`.
+
+### [P2] TCC, Trabalhos e Início: precisão técnica e falta de evidência
+- **O quê:**
+  - "LoRA com o adaptador AdamW-Fusion" ([trabalhos/tcc.html:129](../trabalhos/tcc.html) e [:161](../trabalhos/tcc.html)): AdamW é um otimizador, não um adaptador.
+  - As páginas do TCC não têm link para repositório, notebook, modelo no Hugging Face ou dataset.
+  - Não há métrica planejada.
+  - "Raciocínio lógico aplicado à programação" não tem evidência.
+  - "C → UTFPR" leva ao LinkedIn da universidade, o que não é evidência.
+- **Por que importa:** é exatamente o que um entrevistador de ML vai perguntar.
+- **Correção:**
+  - confirmar o termo "AdamW-Fusion";
+  - acrescentar uma linha "Métrica planejada" (ex.: acerto por campo, taxa de JSON válido, VRAM, latência);
+  - pôr links do Hugging Face e do GitHub na ficha técnica;
+  - tirar ou comprovar as habilidades sem evidência.
+- **Comando:** `/impeccable clarify`.
+
+### [P2] Início: o conceito "model card" se perdeu (o brief está desatualizado)
+- **O quê:** nenhuma das promessas do brief para a primeira tela existe (trilho de metadados, demo, tags por área), e o brief ainda descreve uma página única.
+- **Correção:** decidir entre dois caminhos:
+  - trazer um elemento de model card para a Início: um trilho compacto com status, modelo base e links (inclusive Hugging Face), ou um quadro estático da demo;
+  - reescrever o brief para o site de várias páginas.
+- **Comando:** `/impeccable shape` (atualizar o brief) ou `/impeccable bolder`.
+
+### [P3] Rodapé de todas as abas: transbordo e ordem dos links
+- **O quê:**
+  - O BibTeX rola para os lados em 1440 (546px de conteúdo em 513px) e no celular.
+  - O botão "Hugging Face", o link mais ligado à proposta do site, quebra sozinho para a segunda linha.
+  - Os blocos `<pre>` com rolagem não recebem foco pelo teclado.
+- **Correção:** quebrar a URL do BibTeX, pôr o Hugging Face logo depois do e-mail e dar `tabindex="0"` com `aria-label` aos blocos de código.
+- **Comando:** `/impeccable polish`.
+
+## 6. Carga cognitiva
+
+| Aba | Falhas no checklist | Nível |
+|---|---|---|
+| Início | agrupamento (14 linhas de habilidades com ~21 links), escolhas mínimas (8 controles no topo, 5 botões de contato) | moderado |
+| Trabalhos | agrupamento e escolhas (índice com 8 links), revelação progressiva (tudo aberto; o prompt #1 pedia "lista de itens fechados") | moderado |
+| Estudo de caso do TCC | só os 5 botões de contato do rodapé | baixo |
+| Como foi criado | foco único, hierarquia visual, agrupamento (o prompt #2 sozinho tem 2.600px), revelação progressiva, memória de trabalho | **alto** |
+
+**Pontos de decisão com mais de 4 opções:**
+- topo de todas as páginas: 8 controles;
+- linha de contato do rodapé: 5 botões;
+- índice de Trabalhos: 8 links;
+- painel de habilidades da Início: ~21 links.
+
+## 7. Jornada emocional
+
+- **Entrada:** calma, crível e simpática; a foto real ajuda.
+- **Primeiro vale, logo na primeira frase:** o resumo é aspiração com tom de hype.
+- **Pico:** a demo documento → JSON do estudo de caso. Mas ela fica a dois cliques da Início e, no celular, começa em y=1086.
+- **Segundo vale:** a contradição de status entre páginas e um "Resultado: Em andamento" sem números. É honesto, mas desanima.
+- **Terceiro vale:** "Como foi criado", com texto cru, trechos "[removido]" e prompts sem resultado. Parece abandonado.
+- **Fim:** o rodapé `from_pretrained` agrada quem é de ML. O bloco "Citação" pode soar presunçoso para recrutadores, e no celular o snippet corta o e-mail.
+
+## 8. Alertas por persona
+
+- **Jordan (recrutador não técnico):**
+  - o resumo diz o que o Atos quer, não o que fez;
+  - a linha de fatos do TCC (`gemma-4-E2B-it`, QLoRA, AdamW-Fusion) não tem explicação;
+  - o chip "Mercado" não diz "em produção";
+  - o caminho de repositório no topo parece uma página do GitHub;
+  - "Como foi criado" abre com prompts crus, "Telefone: [removido]" e `##` e `**` literais;
+  - não há CV para baixar.
+- **Casey (celular):**
+  - a primeira tela (812px) mostra só foto, nome, resumo de 6 linhas, status e a linha da UTFPR;
+  - o TCC começa em y=555, o botão dele em y=1070 e o card de produção em y=1242;
+  - os botões PT/EN têm 36×30px;
+  - os links "onde usei" têm 17px de altura, abaixo dos 24px recomendados;
+  - a demo JSON e o e-mail do rodapé aparecem cortados;
+  - Trabalhos (5.336px) e Como foi criado (11.457px) não têm índice fixo nem "voltar ao topo".
+- **Sam (teclado / leitor de tela):**
+  - os atalhos `1`–`4` falham o 2.1.4, e o `4` não move o foco;
+  - `aria-current` não acompanha a aba Contato, e não existe na aba Trabalhos do estudo de caso;
+  - em EN, o `alt` da foto, o `aria-label` do link do topo e o rótulo da navegação continuam em PT;
+  - os nomes das abas incluem o número da tecla ("Início 1");
+  - os blocos de código com rolagem não recebem foco;
+  - a primeira parada de Tab do conteúdo é o logo da UTFPR, que abre o LinkedIn em nova aba sem avisar.
+- **Rhea (engenheira de ML que entrevista):**
+  - o rótulo errado "adaptador AdamW-Fusion";
+  - não há descrição do dataset (quais documentos, quantos, reais ou sintéticos);
+  - a avaliação aparece só como "Planejada", e o estudo de caso não tem link para repositório nem para o modelo no Hugging Face;
+  - o "≈10×" não diz qual é a linha de base;
+  - o registro de prompts mostra que o pedido do prompt #1 não foi cumprido: "lista de itens fechados" e "com o meu nível em cada uma".
+
+## 9. Observações menores
+
+- "LLM’s" com apóstrofo no resumo em PT; o plural em inglês é "LLMs". O texto veio do seu prompt.
+- O resumo tem ~110 caracteres por linha em 1440, porque `max-width: 86ch` é largo demais. O ideal fica entre 65 e 75.
+- O `og:image` usa caminho relativo (`images/perfil.jpg`) em todas as páginas. Prévias no LinkedIn e no Slack precisam de URL absoluta.
+- O PRODUCT.md ainda chama a foto de placeholder, mas ela foi trocada no commit `0e59632`.
+- "Outros trabalhos" na Início mostra 2 cards de liderança e deixa de fora os Filtros, um resultado técnico que também está em produção.
+- A animação de entrada (`.js .page > * { animation: rise … both }`) deixa o conteúdo invisível se as animações estiverem pausadas, um risco para capturas de prévia.
+- As bordas dos botões secundários (#cfd4dd sobre branco) têm 1,49:1 de contraste.
+- A descrição da skill impeccable na aba Como foi criado diz "Adquirida em", o que soa estranho.
+
+## 10. Perguntas para pensar
+
+1. Se o recrutador ler uma só frase, ela deve dizer o que você quer ou o fato "em produção, ≈10× mais rápido" que você já conquistou?
+2. O "model card" hoje vive só no topo e no rodapé. Sem um modelo publicado, é mais honesto assumir o conceito (um card de verdade, com status, plano de avaliação e links) ou abandoná-lo?
+3. "Como foi criado" é peça de portfólio ou log? Se a ideia é provar engenharia de prompt, por que mostrar transcrições cruas em vez de uma história curada "prompt → decisão → diff"? E ela deve ser uma aba principal, ao lado de "Trabalhos"?
+
+## Histórico de notas
+
+| Data | Alvo | Nota |
+|---|---|---|
+| 2026-11-03 | Início | 21/32 (66%) |
+| 2026-11-11 | Início | 22/32 (69%) |
+| 2026-11-11 | Trabalhos | 23/32 (72%) |
+| 2026-11-11 | Estudo de caso do TCC | 22/32 (69%) |
+| 2026-11-11 | Como foi criado | 22/40 (55%) |
+
+Os snapshots de cada aba ficam em `.impeccable/critique/`.
