@@ -70,27 +70,6 @@
     }
   });
 
-  /* ---------- table of contents: scrollspy ---------- */
-  const tocLinks = Array.from(document.querySelectorAll(".toc a"));
-  if (tocLinks.length) {
-    const visible = new Map();
-    const spy = new IntersectionObserver((entries) => {
-      entries.forEach((e) => visible.set(e.target.id, e.isIntersecting ? e.intersectionRatio : 0));
-      // the most specific visible target wins: a project inside a group beats the group itself
-      let best = null, bestRatio = 0;
-      tocLinks.forEach((a) => {
-        const id = a.getAttribute("href").slice(1);
-        const r = visible.get(id) || 0;
-        if (r > 0 && (r >= bestRatio || a.closest(".toc__sub"))) { best = id; bestRatio = r; }
-      });
-      if (best) tocLinks.forEach((a) => a.classList.toggle("is-active", a.getAttribute("href") === "#" + best));
-    }, { rootMargin: "-120px 0px -55% 0px", threshold: [0, .1, .25, .5, .75, 1] });
-    tocLinks.forEach((a) => {
-      const target = document.querySelector(a.getAttribute("href"));
-      if (target) spy.observe(target);
-    });
-  }
-
   /* ---------- copy buttons ---------- */
   document.querySelectorAll("[data-copy]").forEach((btn) => {
     const label = btn.querySelector(".copy-label");
@@ -183,6 +162,7 @@
     }
 
     const list = slot("prompts");
+    const toc = slot("toc");
     data.prompts.forEach((p, i) => {
       const n = String(i + 1);
       const item = el("li", "group prompt");
@@ -193,20 +173,46 @@
         const when = el("time", "group__when"); when.dateTime = p.data; when.append(date(p.data));
         head.append(when);
       }
-      // no lang attribute here: the language toggle hides [lang] elements, and the prompt is always shown verbatim
+
+      // collapsed: a 6-line preview; <details> opens and closes from the keyboard without extra JS
+      const more = el("details", "prompt__more");
+      const summary = el("summary");
+      const preview = el("span", "prompt__preview", p.prompt);
+      preview.setAttribute("aria-hidden", "true"); // the full text below is the one read aloud
+      const toggle = el("span", "prompt__toggle");
+      const show = el("span", "prompt__show"); show.append(bi({ pt: "Mostrar prompt completo", en: "Show full prompt" }));
+      const hide = el("span", "prompt__hide"); hide.append(bi({ pt: "Recolher prompt", en: "Collapse prompt" }));
+      toggle.append(show, hide);
+      summary.append(preview, toggle);
+      // lang="pt" (not "pt-BR") marks the language without being hidden by the language toggle
       const text = el("blockquote", "prompt__text", p.prompt);
+      text.lang = "pt";
+      more.append(summary, text);
+
       const facts = el("dl", "facts");
+      if (p.resultado) fact(facts, { pt: "Resultado", en: "Result" }, p.resultado);
+      else {
+        const none = el("span", "prompt__muted");
+        none.append(bi({ pt: "Resultado ainda não registrado.", en: "Result not recorded yet." }));
+        fact(facts, { pt: "Resultado", en: "Result" }, none);
+      }
       if (p.skills && p.skills.length) {
         const tags = el("ul", "tags tags--sm");
         p.skills.forEach((s) => tags.append(el("li", "tag tag--llm", s)));
         fact(facts, "Skills", tags);
       }
-      if (p.resultado) fact(facts, { pt: "Resultado", en: "Result" }, p.resultado);
       const commit = !p.commit ? bi({ pt: "pendente", en: "pending" })
         : /^[0-9a-f]{7,40}$/.test(p.commit) ? commitLink(p.commit) : p.commit;
       fact(facts, "Commit", commit);
-      item.append(head, text, facts);
+      item.append(head, more, facts);
       list.append(item);
+
+      if (toc) {
+        const a = el("a"); a.href = "#prompt-" + n;
+        a.append(el("i", "toc__dot"), el("span", null, "#" + n));
+        if (p.data) { const y = el("span", "toc__y"); y.append(date(p.data)); a.append(y); }
+        const li = el("li"); li.append(a); toc.append(li);
+      }
     });
 
     const last = data.prompts[data.prompts.length - 1];
@@ -214,6 +220,27 @@
     fact(summary, "Prompts", String(data.prompts.length));
     fact(summary, "Skills", String(data.skills.length));
     if (last && last.data) fact(summary, { pt: "Último prompt", en: "Latest prompt" }, date(last.data));
+  }
+
+  /* ---------- table of contents: scrollspy ---------- */
+  const tocLinks = Array.from(document.querySelectorAll(".toc a"));
+  if (tocLinks.length) {
+    const visible = new Map();
+    const spy = new IntersectionObserver((entries) => {
+      entries.forEach((e) => visible.set(e.target.id, e.isIntersecting ? e.intersectionRatio : 0));
+      // the most specific visible target wins: a project inside a group beats the group itself
+      let best = null, bestRatio = 0;
+      tocLinks.forEach((a) => {
+        const id = a.getAttribute("href").slice(1);
+        const r = visible.get(id) || 0;
+        if (r > 0 && (r >= bestRatio || a.closest(".toc__sub"))) { best = id; bestRatio = r; }
+      });
+      if (best) tocLinks.forEach((a) => a.classList.toggle("is-active", a.getAttribute("href") === "#" + best));
+    }, { rootMargin: "-120px 0px -55% 0px", threshold: [0, .1, .25, .5, .75, 1] });
+    tocLinks.forEach((a) => {
+      const target = document.querySelector(a.getAttribute("href"));
+      if (target) spy.observe(target);
+    });
   }
 
   /* ---------- OCR → JSON demo (case study page only) ---------- */
