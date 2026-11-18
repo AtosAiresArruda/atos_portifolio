@@ -58,6 +58,13 @@ window.COMO_FOI_CRIADO = {
       skills: [],
       resultado: null,
       commit: null
+    },
+    {
+      data: "2026-11-18",
+      prompt: "## Objetivo\nVamos fazer os ajustes técnicos de usabilidade do site.\n\n## Contexto\nA skill Impeccable já foi usada para revisar o site. As correções técnicas mapeadas estão registradas no `PLANO.md`, na seção P2.2.1 (Plano de implementação da revisão), que define esta ordem de execução:\n\n1. **A1 e A2**: os dois problemas graves (P1) do audit. São pequenos e isolados. (CONCLUÍDO)\n2. **D1**: brief atualizado, antes de mexer no layout.\n3. **B1, B2 e A7/A8**: estrutura da Início, de \"Como foi criado\" e do TCC no celular.\n4. **A3–A6, A9, A10**: acessibilidade e celular.\n5. **Bloco C**: conforme você entregar os textos. Pode correr em paralelo.\n6. **A11–A18**: junto com o P2.3 (`typeset` e a decisão sobre a Geist).\n7. **Fechamento**: `/impeccable critique` + `/impeccable audit` de novo, e `/impeccable polish` por último.\n\n## Tarefa\n1. Consulte a tabela do Bloco A (Correções técnicas) no `PLANO.md` para saber o que deve ser feito. As tarefas A1 e A2 já foram concluídas.\n2. Faça uma análise do que deve ser realizado.\n3. Com base nessa análise, divida o trabalho em tarefas e coordene outros agentes para que executem as correções técnicas em paralelo.",
+      skills: [],
+      resultado: null,
+      commit: null
     }
   ]
 };
