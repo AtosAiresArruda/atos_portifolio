@@ -60,6 +60,10 @@ dd code { font-size: .875em; background: var(--code-bg); padding: 2px 6px; borde
 html[lang="pt-BR"] body [lang="en"],
 html[lang="en"] body [lang="pt-BR"] { display: none !important; }
 
+/* visually hidden but read aloud; target of aria-labelledby for bilingual names:
+   the inactive-language child is display:none, so only the active language enters the name */
+.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+
 .skip { position: absolute; left: 12px; top: -48px; z-index: 50; background: var(--ink); color: #fff; padding: 8px 12px; border-radius: 8px; }
 .skip:focus { top: 12px; }
 /* footer receives focus from shortcut 4 only to carry the Tab order; no ring around the whole block */
