@@ -18,6 +18,12 @@
   --prod-bg: #e3f6e6;    --prod-fg: #17682a;
 
   --code-bg: #f1f3f7;
+  /* dark code panel (TCC demo output): every pair ≥ 8.9:1 on --code-dark-bg */
+  --code-dark-bg: var(--ink);
+  --code-dark-fg: #dfe3ff;
+  --code-dark-k: #a9b2ff;
+  --code-dark-s: #8fe0c8;
+  --code-dark-n: #ffc98a;
   --font: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --mono: "Geist Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
 
@@ -56,6 +62,8 @@ html[lang="en"] body [lang="pt-BR"] { display: none !important; }
 
 .skip { position: absolute; left: 12px; top: -48px; z-index: 50; background: var(--ink); color: #fff; padding: 8px 12px; border-radius: 8px; }
 .skip:focus { top: 12px; }
+/* footer receives focus from shortcut 4 only to carry the Tab order; no ring around the whole block */
+.footer:focus { outline: none; }
 
 .wrap { width: min(1180px, 100% - 32px); margin-inline: auto; }
 .page { padding-bottom: 64px; }
@@ -293,11 +301,12 @@ kbd {
   border: 1px solid var(--rule);
 }
 .demo__arrow { font: 400 22px/1 var(--mono); color: var(--ink-3); }
-.code.demo__out { margin: 0; min-height: 214px; background: var(--ink); color: #dfe3ff; border-color: var(--ink); font-size: 13px; }
-.demo__out .k { color: #a9b2ff; }
-.demo__out .s { color: #8fe0c8; }
-.demo__out .n { color: #ffc98a; }
-.demo__out .caret { display: inline-block; width: 7px; height: 1.1em; vertical-align: -2px; background: #a9b2ff; animation: blink 1s steps(1) infinite; }
+.code.demo__out { margin: 0; min-height: 214px; background: var(--code-dark-bg); color: var(--code-dark-fg); border-color: var(--code-dark-bg); font-size: 13px; }
+/* .code.demo__out (two classes) outranks the light-panel .code .k/.s rules further down */
+.code.demo__out .k { color: var(--code-dark-k); }
+.code.demo__out .s { color: var(--code-dark-s); }
+.code.demo__out .n { color: var(--code-dark-n); }
+.demo__out .caret { display: inline-block; width: 7px; height: 1.1em; vertical-align: -2px; background: var(--code-dark-k); animation: blink 1s steps(1) infinite; }
 @keyframes blink { 50% { opacity: 0; } }
 .demo__cap { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 10px; font-size: 13px; color: var(--ink-3); }
 
