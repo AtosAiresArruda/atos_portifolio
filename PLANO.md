@@ -17,6 +17,7 @@
   - **Trabalhos** (`trabalhos.html`): todos os trabalhos agrupados por experiência, no formato problema · o que fiz · resultado, com índice lateral que acompanha a rolagem.
   - **Estudo de caso do TCC** (`trabalhos/tcc.html`): demo OCR → JSON, etapas e ficha técnica.
 - Conceito visual: **"model card"** (Hugging Face). Contato e citação no rodapé de todas as páginas.
+- Estética (2026-11-18, PR #10): faixas **azul-marinho `#0b205e` e brancas** alternadas, topo de cada página com borda em onda, destaque em ciano e escala tipográfica com texto corrido em 17px. Detalhes e pendências em **P2.3**.
 - Bilíngue PT/EN com botão no topo; a escolha vale para todas as páginas.
 - Navegação: abas Início · Trabalhos · Contato, atalhos de teclado `1`–`3`, caminho (breadcrumb) nas páginas internas.
 
@@ -29,7 +30,9 @@
 | Estudo de caso do TCC | `trabalhos/tcc.html` | Caminhos com `../` (está numa subpasta). |
 | Contato e citação | rodapé de **cada** página | Repetido nos três arquivos: altere nos três. |
 | Nível de uma linguagem | `index.html`, classe `lvl--3` / `lvl--2` / `lvl--1` | 3 = Alto, 2 = Médio, 1 = Estudando. Troque também o texto. |
-| Cores, fontes, espaçamentos | `styles.css` | Tokens no topo (`:root`). |
+| Cores, fontes, espaçamentos | `styles.css` | Tokens no topo (`:root`). Tamanhos de fonte só pelas variáveis `--t-*`. |
+| Cores dentro das faixas escuras | `styles.css`, regra `.on-dark` | Redefine os mesmos tokens (texto, destaque, cartões, código) para o fundo azul-marinho. |
+| Qual seção é escura | HTML de cada página | Classes `band--dark on-dark` na seção; `band--hero` no topo (ganha a onda). A barra do topo e o rodapé usam só `on-dark`. |
 | Idioma, abas, atalhos, índice, demo | `script.js` | Campos da demo em `fields`. |
 | Foto | `images/perfil.jpg` | Quadrada, mínimo 400×400 px. |
 
@@ -135,7 +138,7 @@ Ordem do conteúdo, de cima para baixo:
 3. **B1, B2 e A7/A8:** estrutura da Início, de "Como foi criado" e do TCC no celular. B2, A7 e A8 ✅; falta o B1.
 4. **A3–A6, A9, A10 ✅:** acessibilidade e celular.
 5. **Bloco C:** conforme você entregar os textos. Pode correr em paralelo.
-6. **A11–A18:** junto com o P2.3 (`typeset` e a decisão sobre a Geist).
+6. **A11–A18:** junto com o P2.3 (`typeset` e a decisão sobre a Geist). A11 e A17 ✅ e metade do A18 ✅ (PR #10); faltam A12–A16 e as bordas do A18.
 7. **Fechamento:** `/impeccable critique` + `/impeccable audit` de novo, e `/impeccable polish` por último.
 
 #### Bloco A · Correções técnicas (sem mudar conteúdo)
@@ -152,14 +155,14 @@ Ordem do conteúdo, de cima para baixo:
 | A8 ✅ | P2 | Demo JSON: empilhar a partir de ~900px e quebrar linha na saída (`pre-wrap`). | [styles.css:288](styles.css) e [:399](styles.css) | `adapt` | Nenhum texto da demo cortado em 1440, 768, 375 e 320px. |
 | A9 ✅ | P2 | Rodapé: BibTeX e snippet quebram linha (o e-mail aparece inteiro no celular), `<pre>` focável com `tabindex="0"` e `aria-label`, Hugging Face logo depois do e-mail. | rodapé das 4 páginas | `polish` | Sem rolagem lateral nos blocos de código em 1440 e 375px. |
 | A10 ✅ | P2 | Celular: alvos de 44px em `pointer: coarse` (PT/EN 36×30, contato 36×36, links-CTA de 22px); indicação de rolagem nas abas em 320px ("Contato" cortado); cabeçalho solto em telas baixas (`max-height: 500px`). | [styles.css:87–93](styles.css), [:105](styles.css), [:416–419](styles.css) | `adapt` | Alvos ≥ 44px no toque; "Contato" alcançável em 320px; cabeçalho ≤ 25% da altura com zoom de 400%. |
-| A11 | P2 | Escala tipográfica de px para rem (47 declarações). Junto do P2.3. | [styles.css](styles.css) | `typeset` | Com a fonte do navegador em 200%, todo o texto escala. |
+| A11 ✅ | P2 | Escala tipográfica de px para rem (47 declarações). Junto do P2.3. | [styles.css](styles.css) | `typeset` | Com a fonte do navegador em 200%, todo o texto escala. |
 | A12 | P3 | Tirar a legenda "onde usei" do nome acessível dos títulos das colunas de habilidades. | [index.html:143, 153, 164](index.html) | `polish` | Títulos lidos só como "Hard skills" etc. |
 | A13 | P3 | `og:image` com URL absoluta; `perfil.jpg` em 208px e 56px (WebP com `srcset`). | `<head>` das 4 páginas, `images/` | `optimize` | Prévia do link funciona no LinkedIn/WhatsApp; a foto carrega ≤ 15 KB. |
 | A14 | P3 | Hospedar a Geist no site, com `preload` e `size-adjust` nas fontes de reserva. Depende da decisão do P2.3. | linhas 14–16 das 4 páginas | `optimize` | Sem CSS de terceiros bloqueando a renderização. |
 | A15 | P3 | Tokens para as 17 cores fixas (demo, documento digitalizado, `#fff`) e `color-scheme: light`. | [styles.css:296–325](styles.css) | `colorize` | Nenhuma cor fixa fora de `:root`. |
 | A16 | P3 | Animação de entrada com estado final visível por padrão (o conteúdo não pode ficar invisível se a animação pausar). | [styles.css](styles.css) (`.js .page > *`) | `polish` | A página aparece inteira mesmo sem animação (capturas de prévia). |
-| A17 | P3 | Largura do resumo de 86ch para ~70ch. | [styles.css](styles.css) (`.intro__lede`) | `typeset` | ≤ 75 caracteres por linha em 1440px. |
-| A18 | P3 | Hierarquia h2/h3 em Trabalhos (salto de 1,24, alvo 1,25) e bordas dos botões secundários (1,49:1). | [styles.css:240, 247](styles.css), `.btn--ghost` | `typeset` / `polish` | O detector não acusa `flat-type-hierarchy`. |
+| A17 ✅ | P3 | Largura do resumo de 86ch para ~70ch (ficou em 68ch). | [styles.css](styles.css) (`.intro__lede`) | `typeset` | ≤ 75 caracteres por linha em 1440px. |
+| A18 ½ | P3 | Hierarquia h2/h3 em Trabalhos (salto de 1,24, alvo 1,25) ✅ e bordas dos botões secundários (1,49:1; ainda pendente). | [styles.css:240, 247](styles.css), `.btn--ghost` | `typeset` / `polish` | O detector não acusa `flat-type-hierarchy`. |
 
 > **A3–A10 feitos em 2026-11-18**, com quatro agentes em paralelo (um por par de itens) e verificação no navegador. Desvios em relação à tabela:
 > - **A8:** a demo empilha por *container query* (quando a própria demo tem < 760px), não por largura de tela; assim também cobre a faixa 961–1165px, em que a página tem duas colunas e a demo ficava apertada.
@@ -208,8 +211,31 @@ O agente **não** escreve nem sugere esses textos. Cada item só aponta o que a 
 
 ### P2.3 Visual
 
-- [ ] `/impeccable typeset`: avaliar troca da fonte Geist (o detector a marca como muito usada).
-- [ ] Modo escuro.
+- [x] `/impeccable typeset`: feito em 2026-11-18 (PR #10). **Decisão: a Geist fica** (está no brief; trocar seria mudar a identidade). Com isso o A14 (hospedar a Geist) está liberado.
+- [x] Nova estética: cor, faixas e tipografia. Feito em 2026-11-18, PR #10 (commit `3b8f24a`, merge `2ecd2a5`); registrado como prompt #7 em "Como foi criado".
+
+#### O que entrou (PR #10)
+
+| Tema | Como ficou | Onde |
+|---|---|---|
+| Faixas | Seções alternam azul-marinho `#0b205e` e branco. Início: topo · TCC · Outros trabalhos · Habilidades · Contato = escuro · branco · escuro · branco · escuro. Demais páginas: topo · conteúdo · Contato = escuro · branco · escuro. | classes `band--dark`, `on-dark` no HTML |
+| Topo | Faixa escura que termina numa onda, seguida de duas linhas cianas. A barra do topo também é escura. | `.band--hero::after` (SVG embutido) |
+| Cores | Destaque ciano profundo `#0b7285` no branco e ciano claro `#5fdcea` no escuro; texto no escuro `#fff` / `#cdd7f0` / `#a3b2d9`. Todos os pares ≥ 4,5:1 (mínimo 5,6:1). | tokens em `:root` e `.on-dark` |
+| Tipografia | 9 tamanhos em rem: 13 etiqueta · 14 metadado/código · 15 interface · 17 corpo · 19 abertura · 20 h3 · 24–28 h2 · 28–34 destaque · 36–48 h1. Prompts em Geist 17px (não mais mono). Peso 650 virou 700. | variáveis `--t-*` |
+| Detalhes | Logo da UTFPR sobre placa branca; favicon e `theme-color` em `#0b205e`; Google Fonts pede a faixa `400..700`. | `<head>` das 4 páginas |
+
+#### Pendências e observações para a próxima rodada
+
+- [ ] **D1 continua aberto:** no brief (`.impeccable/surfaces/index-html.md`) só a linha OWN-WORLD foi atualizada para a nova paleta; o resto ainda descreve o model card antigo.
+- [ ] **`/impeccable document` (P2.4) ficou mais urgente:** o sistema visual mudou e não há `DESIGN.md` registrando faixas, tokens `.on-dark` e escala `--t-*`.
+- [ ] **A15 cresceu:** cores novas fixas fora de `:root`: `#0b205e` e `#0b7285` dentro do SVG da onda e `#fff` na placa da UTFPR. Se a paleta mudar, mude também ali.
+- [ ] **A16 confirmado:** na verificação, o painel do navegador pausava a animação de entrada e o topo ficava meio transparente. O conteúdo precisa aparecer inteiro mesmo sem animação.
+- [ ] **Bordas dos botões secundários (A18):** ainda com contraste baixo contra o branco.
+- [ ] **Seletor PT/EN:** o detector acusa pouco espaço interno (`cramped-padding`).
+- [ ] **Investigar:** na Início, ao saltar a rolagem direto para "Outros trabalhos", a aba "Contato" apareceu ativa. Pode ser só efeito do salto instantâneo do teste.
+- [ ] **Avisos que podem ser ignorados:** o detector marca `cramped-padding` nas laterais das faixas escuras e no topo de "Outros trabalhos". É falso positivo da técnica de fundo até a borda da tela (`border-image`); o espaço medido é de 40px.
+- [ ] **Skill:** há uma versão nova do Impeccable (v4.9.1). Para atualizar: `npx impeccable update`, numa sessão nova.
+- [ ] Modo escuro. Os tokens `.on-dark` já existem e podem servir de base.
 - [ ] Imagem de pré-visualização (Open Graph) para quando o link for colado no LinkedIn/WhatsApp. Uma por sessão, se valer a pena.
 
 ### P2.4 Fechamento
