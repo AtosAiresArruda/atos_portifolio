@@ -12,7 +12,7 @@ Scope: the single-page portfolio. Visitor mode: Experience. Audience: recruiters
 ## Direction contract
 
 THESIS: The candidate documented as a model card: metadata, intended use, training lineage, evaluation. Refuses the dark hero + project-card-grid dev portfolio.
-OWN-WORLD: Cool white document ground, ink-navy text, ultramarine for links and active state; category tags coloured by task (vision teal, LLM violet, research amber, leadership rose). Geist for prose, Geist Mono only for metadata, YAML and configs. Hairline-ruled tables, repo-path header, tab bar, right-hand metadata rail.
+OWN-WORLD: Sections alternate deep navy (#0b205e) and white bands; every page opens on a navy hero (with the dark top bar) whose lower edge is a soft wave trailed by two thin cyan curves; footer navy. Deep cyan (#0b7285) for links, buttons and active state on white, lifted cyan (#5fdcea) on navy; category tags coloured by task (vision blue, LLM violet, research amber, leadership rose). Geist for prose, Geist Mono only for metadata, YAML and configs. Hairline-ruled tables, repo-path header, tab bar, right-hand metadata rail.
 STORY: Visitor sees who and what role, then the TCC fine-tune, then production results table, then lineage, skills, contact.
 FIRST VIEWPORT: Repo-path header with avatar and name, tag row, tab nav; left column opens on model description and the featured TCC card with the document-to-JSON demo; right rail holds status, links, model tree. Primary action "Entrar em contato" top right.
 FORM: Model card (Hugging Face genre), my top-ranked grounded candidate (1 of 7), chosen as IMPECCABLE'S PICK. seed:71b704e5e5a767fb
