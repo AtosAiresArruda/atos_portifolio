@@ -65,6 +65,13 @@ window.COMO_FOI_CRIADO = {
       skills: [],
       resultado: null,
       commit: null
+    },
+    {
+      data: "2026-11-18",
+      prompt: "## Objetivo\nVamos mudar a estética do site e torná-lo mais legível.\n\n## Revisor\nUse a skill Impeccable para avaliar as mudanças sugeridas: contraste WCAG AA e o detector `impeccable detect` em todas as páginas.\n\n## Cor\n1. A cor de destaque passa a ser ciano: ciano profundo nas áreas brancas (links, botões, estados ativos) e ciano claro nas áreas escuras.\n2. Use #0b205e como a cor escura de fundo.\n3. Ajuste as cores de botões, texto e outros elementos de acordo com esse contraste, incluindo o favicon e a cor da barra do navegador no celular.\n\n## Seções\nDivida as seções com faixas de cor alternadas, nesta ordem: escuro, branco, escuro...\n1. Início: topo (escuro), TCC (branco), Outros trabalhos (escuro), Habilidades (branco), Contato (escuro).\n2. Trabalhos, Como foi criado e TCC: topo (escuro), conteúdo (branco), Contato (escuro).\n\n## Topo\n1. No topo de cada página, use uma divisão que não seja um retângulo simples.\n2. Na parte inferior dessa divisão, onde a cor muda, coloque linhas curvas suaves.\n\n## Fonte\n1. Verifique o tamanho das fontes e ajuste-as para tornar o site mais legível.\n2. Use uma escala com um tamanho por função, em rem:\n   1. Etiqueta: 13px (chips, tags, datas, breadcrumbs);\n   2. Metadado: 14px (rótulos, legendas, rodapé dos cartões);\n   3. Interface: 15px (botões, abas, índice);\n   4. Código: 14px;\n   5. Corpo: 17px (todo texto corrido);\n   6. Abertura: 19px, com no máximo 68 caracteres por linha;\n   7. h3: 20px;\n   8. h2: 24 a 28px;\n   9. Destaque: 28 a 34px; h1: 36 a 48px.\n3. Os prompts da aba \"Como foi criado\" usam a fonte do texto, não a monoespaçada.\n\n## Entrega\n1. Abra um pull request para a `main`.\n2. Faça o merge depois da minha aprovação.",
+      skills: ["Impeccable"],
+      resultado: { pt: "Nova estética: faixas azul-marinho e brancas alternadas, topo com onda e linhas cianas, destaque em ciano e escala tipográfica com texto corrido em 17px; publicada no PR #10.", en: "New look: alternating navy and white bands, a wave-edged header with cyan lines, cyan accents and a type scale with 17px running text; shipped in PR #10." },
+      commit: "3b8f24a"
     }
   ]
 };
