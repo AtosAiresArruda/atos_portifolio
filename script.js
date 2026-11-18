@@ -41,6 +41,22 @@
     }, { rootMargin: "0px 0px -35% 0px" }).observe(contact);
   }
 
+  /* ---------- session tabs: fade the edge that hides tabs (phones) ---------- */
+  // the row scrolls sideways when the tabs don't fit; the CSS fades whichever edge has more
+  // tabs behind it. Watching the tabs too catches language switches and the web font loading
+  const tabRow = document.querySelector(".tabs__row");
+  if (tabRow && "ResizeObserver" in window) {
+    const updateTabFade = () => {
+      const max = tabRow.scrollWidth - tabRow.clientWidth;
+      tabRow.classList.toggle("has-more-start", tabRow.scrollLeft > 1);
+      tabRow.classList.toggle("has-more-end", tabRow.scrollLeft < max - 1);
+    };
+    tabRow.addEventListener("scroll", updateTabFade, { passive: true });
+    const sizes = new ResizeObserver(updateTabFade);
+    sizes.observe(tabRow);
+    tabs.forEach((t) => sizes.observe(t));
+  }
+
   /* ---------- keyboard shortcuts 1–4 ---------- */
   // single-key shortcuts only fire when no control has focus (WCAG 2.1.4):
   // with a link, button, field or any tabbable element focused, the key does nothing

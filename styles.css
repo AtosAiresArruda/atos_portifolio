@@ -468,5 +468,48 @@ kbd {
   .tabs__row::-webkit-scrollbar { display: none; }
   .tabs a { padding-inline: 10px; }
   .tabs a::after { bottom: 0; }
+  /* the scrolling row clips anything drawn outside it: keep the focus ring inside the tab */
+  .tabs a:focus-visible { outline-offset: -2px; }
+  /* when tabs are hidden past an edge (script.js sets the classes), fade that edge;
+     scroll-padding keeps a focused tab clear of the fade */
+  .tabs__row { scroll-padding-inline: 32px; }
+  .tabs__row.has-more-start { --fade-start: 32px; }
+  .tabs__row.has-more-end { --fade-end: 32px; }
+  .tabs__row.has-more-start, .tabs__row.has-more-end {
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 var(--fade-start, 0px), #000 calc(100% - var(--fade-end, 0px)), transparent);
+    mask-image: linear-gradient(to right, transparent, #000 var(--fade-start, 0px), #000 calc(100% - var(--fade-end, 0px)), transparent);
+  }
+}
+/* below 360px the four PT tabs need ~342px at 10px padding; at 7px they fit in 320 */
+@media (max-width: 359px) {
+  .tabs__row { padding-inline: 2px; }
+  .tabs a { padding-inline: 7px; }
+  .tabs a::after { left: 7px; right: 7px; }
 }
 @media (hover: none) { .tabs kbd { display: none; } }
+
+/* touch screens: targets of at least 44px. Buttons grow where there is room; in the
+   top bar and the demo caption the hit area grows instead, so the bar keeps its height */
+@media (pointer: coarse) {
+  .btn { min-height: 44px; }
+  .topbar .btn, .btn--sm { min-height: auto; position: relative; }
+  .topbar .btn::before { content: ""; position: absolute; inset: -4px; }
+  .btn--sm::before { content: ""; position: absolute; inset: -7px 0; }
+  .lang button { position: relative; }
+  .lang button::before { content: ""; position: absolute; inset: -7px 0; }
+  .lang button:first-child::before { left: -8px; }
+  .lang button:last-child::before { right: -8px; }
+  .link, .edu__logo { position: relative; }
+  .link::before { content: ""; position: absolute; inset: -11px -4px; }
+  .edu__logo::before { content: ""; position: absolute; inset: -12px -4px; }
+  /* when the pager wraps, its two links' hit areas must not overlap */
+  .pager { row-gap: 24px; }
+}
+
+/* short screens (landscape phones, 400% zoom = 320×256): the bar scrolls away
+   instead of covering ~40% of the view */
+@media (max-height: 500px) {
+  html { scroll-padding-top: 16px; }
+  .topbar { position: static; }
+  .rail { top: 24px; }
+}
