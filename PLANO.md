@@ -5,7 +5,7 @@
 
 ## Ordem de execução
 
-1. **P0**: bloqueadores antes de enviar o link (foto, textos).
+1. **P0 ✅**: bloqueadores antes de enviar o link (foto, textos e decisões).
 2. **P2: design e experiência** ← *prioridade atual*. Começa por **P2.1 Sessões**, porque muda a estrutura do site; as revisões com a skill (P2.2 em diante) só valem depois que a estrutura nova existir.
 3. **P1**: provas. Cada item de P1 vira conteúdo de uma sessão de nível 2 (estudo de caso).
 4. **P3**: técnico.
@@ -37,12 +37,12 @@
 
 ## P0: antes de enviar o link a qualquer recrutador
 
-- [ ] **Trocar a foto de perfil.** A imagem atual é só um placeholder (um still de filme). Usar foto real, fundo neutro, rosto bem iluminado.
-- [ ] **Revisar todos os textos em PT e EN.** Conferir se as traduções refletem seu nível e sua voz; ajustar onde soar "traduzido".
-- [ ] **Decidir sobre o telefone.** Ficou fora do site (site público = número exposto a spam). Alternativa: só no CV em PDF.
-- [ ] **Confirmar o que pode ser dito sobre a empresa parceira** da IC (nome, "em produção", métrica de 10×).
-- [ ] **CV em PDF para download** (PT e EN), botão no topo.
-- [ ] **Conferir os perfis de destino**: Hugging Face e GitHub precisam ter algo para ver (repos fixados, README de perfil, model card).
+- [x] **Trocar a foto de perfil.** Foto real no lugar do placeholder.
+- [x] **Revisar todos os textos em PT e EN.** Traduções conferidas.
+- [x] **Decidir sobre o telefone.** Decisão (2026-11-18): **o telefone não aparece no site**; fica só no currículo. O site já está sem telefone.
+- [x] **Confirmar o que pode ser dito sobre a empresa parceira** da IC. Decisão (2026-11-18): no lugar de "empresa parceira", usar **"empresa Varejo 360"**. Aplicado em [trabalhos.html:125 e :138](trabalhos.html), em PT e EN; não há outras menções nas páginas.
+- [x] **CV em PDF para download.** Decisão (2026-11-18): **não haverá download do CV nem acesso ao currículo pelo site.** Nenhum botão a criar.
+- [x] **Conferir os perfis de destino.** Decisão (2026-11-18): o site ganha **uma aba sobre os modelos publicados no Hugging Face**. O trabalho ficou para depois: ver "Aba Modelos (Hugging Face)" no P1.
 
 ## P2: design e experiência (prioridade atual)
 
@@ -241,6 +241,11 @@ O agente **não** escreve nem sugere esses textos. Cada item só aponta o que a 
 - [ ] Evidência para "Agentes de codificação / Prompt engineering / SDD" (hoje sem projeto vinculado na tabela de habilidades). Ex.: um repo com specs + agente, ou um post explicando o fluxo.
 - [ ] Seção "Notas técnicas" (blog curto): QLoRA na prática, como montar dataset de OCR, etc.
 
+### Aba Modelos (Hugging Face) ← *decidida no P0, trabalhar depois*
+- [ ] Nova aba no site para falar dos modelos postados no Hugging Face (perfil `AtosArruda`).
+- [ ] Definir o conteúdo de cada modelo (o que faz, base, método de treino, link para o model card) e onde a aba entra na navegação e nos atalhos de teclado.
+- [ ] Conferir se cada modelo publicado tem model card de verdade antes de linkar.
+
 ## P3: técnico
 
 - [ ] Idioma via URL (`?lang=en` ou `/en/`) para mandar o link já em inglês a recrutadores de fora.
@@ -254,13 +259,15 @@ O agente **não** escreve nem sugere esses textos. Cada item só aponta o que a 
 
 | Decisão | Opções | Sua escolha |
 |---|---|---|
-| Telefone no site | não / sim / só no PDF | |
+| Telefone no site | não / sim / só no PDF | não: só no currículo ✅ |
 | Idioma padrão | detectar pelo navegador (atual) / sempre PT | |
 | Domínio próprio | não / sim (qual?) | |
-| Foto | fundo neutro / ambiente de trabalho | |
+| Foto | fundo neutro / ambiente de trabalho | foto trocada ✅ |
 | Sessões | páginas HTML separadas / abas na mesma página | páginas separadas ✅ |
 | Nomes dos níveis | Alto · Médio · Estudando | ✅ |
 | Cartões da Início | TCC em destaque + Stitching · Projeto Comando · KnockUp | ✅ (troque à vontade) |
 | Demo OCR → JSON | só no estudo de caso do TCC | ✅ |
 | Hard skills com nível | sim / não | |
+| CV no site | botão de download / sem acesso | sem acesso ✅ |
+| Nome da empresa parceira da IC | "empresa parceira" / nome real | "empresa Varejo 360" ✅ |
 | Git como "linguagem" | manter na coluna Linguagens / renomear para "Linguagens e ferramentas" | |
