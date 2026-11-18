@@ -51,6 +51,13 @@ window.COMO_FOI_CRIADO = {
       skills: [],
       resultado: null,
       commit: null
+    },
+    {
+      data: "2026-11-11",
+      prompt: "## Objetivo\nPreparar o plano de implementação da atualização do site.\n\n## Contexto\nOs relatórios `docs/relatorio-p2.2-critique.md` e `docs/relatorio-p2.2-audit.md` serão a base do plano de implementação. Eles foram feitos com a skill Impeccable (`/impeccable critique` e `/impeccable audit`).\n\n## Tarefa\n1. Extraia as informações dos dois relatórios.\n2. Com base neles, use os comandos `shape`, `live` e `generate` da skill Impeccable para criar o plano de implementação da atualização.\n3. Insira o plano na seção P2 (design e experiência) do arquivo `PLANO.md`.\n\n## Restrições\n1. Não acrescente nenhuma informação gerada por IA sobre os trabalhos realizados.\n2. Qualquer atualização de conteúdo será feita explicitamente por mim.",
+      skills: [],
+      resultado: null,
+      commit: null
     }
   ]
 };
