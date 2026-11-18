@@ -47,10 +47,10 @@
     </div>
     <nav class="tabs" aria-label="Sessões / Sections">
       <div class="wrap tabs__row">
-        <a href="./" data-key="1" class="is-active" aria-current="page"><span lang="pt-BR">Início</span><span lang="en">Home</span><kbd>1</kbd></a>
-        <a href="trabalhos.html" data-key="2"><span lang="pt-BR">Trabalhos</span><span lang="en">Work</span><kbd>2</kbd></a>
-        <a href="como-foi-criado.html" data-key="3"><span lang="pt-BR">Como foi criado</span><span lang="en">How it was built</span><kbd>3</kbd></a>
-        <a href="#contato" data-key="4" data-contact><span lang="pt-BR">Contato</span><span lang="en">Contact</span><kbd>4</kbd></a>
+        <a href="./" data-key="1" class="is-active" aria-current="page"><span lang="pt-BR">Início</span><span lang="en">Home</span><kbd aria-hidden="true">1</kbd></a>
+        <a href="trabalhos.html" data-key="2"><span lang="pt-BR">Trabalhos</span><span lang="en">Work</span><kbd aria-hidden="true">2</kbd></a>
+        <a href="como-foi-criado.html" data-key="3"><span lang="pt-BR">Como foi criado</span><span lang="en">How it was built</span><kbd aria-hidden="true">3</kbd></a>
+        <a href="#contato" data-key="4" data-contact><span lang="pt-BR">Contato</span><span lang="en">Contact</span><kbd aria-hidden="true">4</kbd></a>
       </div>
     </nav>
   </header>
@@ -174,7 +174,7 @@
     </section>
   </main>
 
-  <footer class="footer" id="contato" aria-labelledby="h-contato">
+  <footer class="footer" id="contato" tabindex="-1" aria-labelledby="h-contato">
     <div class="wrap footer__grid">
       <div>
         <h2 class="footer__h" id="h-contato"><span lang="pt-BR">Contato</span><span lang="en">Contact</span></h2>

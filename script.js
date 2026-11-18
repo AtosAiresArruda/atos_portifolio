@@ -36,20 +36,34 @@
       const inView = entries.some((e) => e.isIntersecting);
       contactTab.classList.toggle("is-active", inView);
       if (pageTab) pageTab.classList.toggle("is-active", !inView);
+      if (inView) contactTab.setAttribute("aria-current", "location");
+      else contactTab.removeAttribute("aria-current");
     }, { rootMargin: "0px 0px -35% 0px" }).observe(contact);
   }
 
   /* ---------- keyboard shortcuts 1–4 ---------- */
+  // single-key shortcuts only fire when no control has focus (WCAG 2.1.4):
+  // with a link, button, field or any tabbable element focused, the key does nothing
+  function isControl(el) {
+    if (!el || el === document.body || el === root) return false;
+    if (el.isContentEditable) return true;
+    if (el.matches("a[href], button, input, select, textarea, summary, iframe, audio[controls], video[controls]")) return true;
+    const tabindex = el.getAttribute("tabindex");
+    return tabindex !== null && tabindex !== "-1";
+  }
+
   document.addEventListener("keydown", (e) => {
     if (e.metaKey || e.ctrlKey || e.altKey) return;
-    const tag = (e.target.tagName || "").toLowerCase();
-    if (tag === "input" || tag === "textarea" || e.target.isContentEditable) return;
+    if (isControl(document.activeElement)) return;
     const tab = tabs.find((t) => t.dataset.key === e.key);
     if (!tab) return;
     e.preventDefault();
     const href = tab.getAttribute("href");
     if (href.startsWith("#")) {
-      document.querySelector(href).scrollIntoView({ block: "start" });
+      // move focus too, so the next Tab continues from the target (WCAG 2.4.3)
+      const target = document.querySelector(href);
+      target.scrollIntoView({ block: "start" });
+      target.focus({ preventScroll: true });
       history.replaceState(null, "", href);
     } else {
       window.location.href = tab.href;
