@@ -18,6 +18,8 @@
   --prod-bg: #e3f6e6;    --prod-fg: #17682a;
 
   --code-bg: #f1f3f7;
+  /* error text/border (copy failure): 6.6:1 on --surface, 6.1:1 on --ground */
+  --danger: #b42318;
   /* dark code panel (TCC demo output): every pair ≥ 8.9:1 on --code-dark-bg */
   --code-dark-bg: var(--ink);
   --code-dark-fg: #dfe3ff;
@@ -91,6 +93,7 @@ html[lang="en"] body [lang="pt-BR"] { display: none !important; }
 .btn--ghost:hover { border-color: var(--ink-3); background: var(--ground); }
 .btn--sm { height: 30px; padding: 0 10px; font-size: 13px; }
 .btn.is-copied { border-color: var(--prod-fg); color: var(--prod-fg); }
+.btn.is-failed { border-color: var(--danger); color: var(--danger); }
 
 .link { display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; font-size: 14px; font-weight: 500; text-decoration: none; }
 .link:hover { text-decoration: underline; }
@@ -393,6 +396,11 @@ kbd {
 .footer__h { font-size: 1.125rem; font-weight: 650; letter-spacing: -0.01em; margin-bottom: 14px; }
 .footer__grid > div:last-child .footer__h { font-size: 13px; font-weight: 600; padding-top: 6px; }
 .contact { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+/* footer code wraps instead of scrolling sideways (snippet and BibTeX); a <wbr> before the e-mail
+   keeps the address on one line, and overflow-wrap only splits a token when nothing else fits */
+.footer .code { white-space: pre-wrap; overflow-wrap: anywhere; }
+/* the e-mail button may shrink to the row and wrap instead of overflowing on narrow phones */
+.footer .contact .btn { max-width: 100%; white-space: normal; overflow-wrap: anywhere; }
 .footer__note { margin-top: 20px; font-size: 13px; color: var(--ink-3); }
 
 /* ---------- reveal (one orchestrated entrance per page) ---------- */

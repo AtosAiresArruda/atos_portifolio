@@ -71,17 +71,38 @@
   });
 
   /* ---------- copy buttons ---------- */
+  // the result is announced through the footer's role="status" region (WCAG 4.1.3);
+  // on failure the button shows it too, and the address stays readable on the mailto: button
+  const copyStatus = document.getElementById("copy-status");
+  const pair = (pt, en) => '<span lang="pt-BR">' + pt + '</span><span lang="en">' + en + "</span>";
+  const announce = (html) => {
+    if (!copyStatus) return;
+    // empty first, so the same message twice in a row is still announced
+    copyStatus.innerHTML = "";
+    setTimeout(() => { copyStatus.innerHTML = html; }, 100);
+  };
   document.querySelectorAll("[data-copy]").forEach((btn) => {
     const label = btn.querySelector(".copy-label");
     const original = label.innerHTML;
+    let timer;
+    const show = (state, html, ms) => {
+      clearTimeout(timer);
+      btn.classList.remove("is-copied", "is-failed");
+      btn.classList.add(state);
+      label.innerHTML = html;
+      announce(html);
+      timer = setTimeout(() => {
+        btn.classList.remove(state);
+        label.innerHTML = original;
+        if (copyStatus) copyStatus.innerHTML = "";
+      }, ms);
+    };
     btn.addEventListener("click", async () => {
       try {
         await navigator.clipboard.writeText(btn.dataset.copy);
-        btn.classList.add("is-copied");
-        label.innerHTML = '<span lang="pt-BR">Copiado!</span><span lang="en">Copied!</span>';
-        setTimeout(() => { btn.classList.remove("is-copied"); label.innerHTML = original; }, 1800);
+        show("is-copied", pair("Copiado!", "Copied!"), 1800);
       } catch (e) {
-        window.location.href = "mailto:" + btn.dataset.copy;
+        show("is-failed", pair("Não foi possível copiar", "Couldn't copy"), 4000);
       }
     });
   });
